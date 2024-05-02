@@ -1,0 +1,113 @@
+.div-superior{
+  display: flex;
+  align-items: center;
+  gap: 3vw;
+}
+
+svg{
+  width: 2.5vw;
+}
+
+.selectorDeMes{
+  border: none;
+  margin: 1vw;
+  border-radius: 10px;
+}
+
+
+ol{
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0;
+  margin: 1vw;
+}
+
+.day-name{
+  border: 1px solid black;
+  min-height: 3vh;
+  background-color: #eee;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 8px;
+  margin: 1px;
+}
+
+
+
+.days{
+  padding: 1px;
+  border: 1px solid black;
+  min-height: 13.5vh;
+  border-radius: 8px;
+  margin: 1px;
+}
+
+.days:hover{
+  background-color: #ff3a3a3b;
+}
+
+.rojo{
+  background-color: blue;
+}
+
+.empiezaLunes{
+  grid-column-start: 1;
+}
+
+.empiezamartes{
+  grid-column-start: 2;
+}
+
+
+.empiezaMiercoles{
+  grid-column-start: 3;
+}
+
+
+.empiezaJueves{
+  grid-column-start: 4;
+}
+
+
+.empiezaViernes{
+  grid-column-start: 5;
+}
+
+
+.empiezaSabado{
+  grid-column-start: 6;
+}
+
+.empiezaDomingo{
+  grid-column-start: 7;
+}
+
+
+
+
+
+
+
+
+
+
+/* FORMULARIO ↓ */
+.formulario{
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  top: 5%;
+  left: 5%;
+  background-color: #eeee;
+}
+
+.h1-formulario{
+  text-align: center;
+}
+
+.formulario-close{
+  position: relative;
+  top: 1%;
+  left: 98%;
+}
