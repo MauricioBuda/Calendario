@@ -1,20 +1,24 @@
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
-
 mesSeleccionado.addEventListener("change", elegirMes);
 
+let modalFormulario = document.getElementById("modal-formulario");
+let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
+
+
+
+
+
+
 
 
   
   
-//   mesSeleccionado.addEventListener("click", ()=>{console.log(mesSeleccionado)})
   
   
   
-  
-  
-  // Función para asignar los eventos dependiendo donde haga click ↓
-  function asignarEventosSegunDondeHagaClick() {
+// Función para asignar los eventos dependiendo donde haga click ↓
+function asignarEventosSegunDondeHagaClick() {
     // Asignar eventos a los botones
     document.addEventListener("click", (event) => {
   
@@ -23,32 +27,21 @@ mesSeleccionado.addEventListener("change", elegirMes);
           // Extraer el ID de la tarea de la identificación del botón
           clickEnCasilla(event.target.id.split("-")[1]);
         } 
+
+        else if (event.target.id.startsWith("close-formulario")) {
+            cerrarElFormulario();
+          } 
     })
 }  
 
 asignarEventosSegunDondeHagaClick();
-elegirMes();
+// elegirMes();
 
 
 
 
 
 
-
-
-
-function clickEnCasilla(dia){
-    let contenedorParaModal = document.getElementById("modal-formulario")
-    let formulario = document.createElement("div");
-    formulario.innerHTML = `
-    <div class="formulario">
-    <span class="formulario-close">X</span>
-      <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
-    </div>
-    `;
-    
-    contenedorParaModal.appendChild(formulario)
-}
 
 
 
@@ -68,6 +61,10 @@ function pintarCuadro(id){
 
 
 
+// Cargo el último mes que vieron, si es que existe ↓
+if (mesPreExistenteEnLocalStorage){
+    mesSeleccionado.value = mesPreExistenteEnLocalStorage;
+}
 
 
 
@@ -138,6 +135,9 @@ function elegirMes() {
             diasEnMes = 0; // Manejar el caso de un mes inválido
     }
 
+    localStorage.setItem("mesElegido", mesSeleccionado.value);
+
+
     // Obtener la lista de días del calendario
     const listaDias = document.querySelectorAll('.days');
 
@@ -151,4 +151,39 @@ function elegirMes() {
             dia.style.display = 'none';
         }
     });
+}
+
+
+
+
+
+
+
+
+
+// Renderizar modal con tareas ↓
+function clickEnCasilla(dia){
+    modalFormulario.classList.remove("aplicar-display-none");
+
+    let contenedorParaModal = document.getElementById("modal-formulario");
+    let formulario = document.createElement("div");
+    formulario.innerHTML = `
+    <div id="modal-formulario" class="formulario">
+    <button id="close-formulario" class="formulario-close">X</button>
+      <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
+    </div>
+    `;
+    
+    contenedorParaModal.appendChild(formulario)
+}
+
+
+
+
+
+
+
+// Función para cerrar modal ↓
+function cerrarElFormulario (){
+    modalFormulario.classList.add("aplicar-display-none");
 }
