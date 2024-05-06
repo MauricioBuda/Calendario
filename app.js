@@ -5,6 +5,11 @@ mesSeleccionado.addEventListener("change", elegirMes);
 let modalFormulario = document.getElementById("modal-formulario");
 let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
 
+let btnAdd = `<svg xmlns="http://www.w3.org/2000/svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg>`
+
 
 
 
@@ -64,6 +69,7 @@ function pintarCuadro(id){
 // Cargo el último mes que vieron, si es que existe ↓
 if (mesPreExistenteEnLocalStorage){
     mesSeleccionado.value = mesPreExistenteEnLocalStorage;
+    elegirMes();
 }
 
 
@@ -169,6 +175,7 @@ function clickEnCasilla(dia){
     let formulario = document.createElement("div");
     formulario.innerHTML = `
     <div id="modal-formulario" class="formulario">
+    <button id="add-formulario" class="formulario-add">${btnAdd}</i></button>
     <button id="close-formulario" class="formulario-close">X</button>
       <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
     </div>

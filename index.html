@@ -11,7 +11,8 @@
 <body>
   <section class="section-calendario">
 
-      <select class="selectorDeMes" id="selectorMes" name="selectorMes" >
+      <select class="selectores" id="selectorMes" name="selectorMes" >
+        <option disabled selected> MES </option>
         <option value="Enero">ENERO 2024</option>
         <option value="Febrero">FEBRERO 2024</option>
         <option value="Marzo">MARZO 2024</option>
@@ -25,8 +26,27 @@
         <option value="Noviembre">NOVIEMBRE 2024</option>
         <option value="Diciembre">DICIEMBRE 2024</option>
       </select>
+      
+      <select class="selectores" id="selectorRecepcionista" name="selectorRecepcionista" >
+        <option disabled selected> RECEPCIONISTA</option>
+        <option value="Todas">TODAS</option>
+        <option value="Angela">ÁNGELA</option>
+        <option value="Camila">CAMILA</option>
+        <option value="Quimey">QUIMEY</option>
+        <option value="Rocío">ROCÍO</option>
+      </select>
 
+      <select class="selectores" id="selectorActividad" name="selectorActividad" >
+        <option disabled selected> TIPO DE LICENCIA</option>
+        <option value="Todas">TODAS</option>
+        <option value="DiaEstudio">DÍA DE ESTUDIO</option>
+        <option value="Vacaciones">VACACIONES</option>
+        <option value="Enfermedad">ENFERMEDAD</option>
+        <option value="FaltaProgramada">FALTA PROGRAMADA</option>
+        <option value="HomeOffice">HOME OFFICE</option>
+        <option value="Otras">OTRAS LICENCIAS</option>
 
+      </select>
 
     <ol>
       <li class="day-name">Lunes</li>
