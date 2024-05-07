@@ -206,8 +206,6 @@ function clickEnCasilla(dia){
 
 // Abrir formulario para nueva tarea ↓
 function formularioNuevaTarea(dia){
-    console.log("si")
-
 
     let contenedorParaModal = document.getElementById("modal-formulario");
     let nuevaTarea = document.createElement("div");
