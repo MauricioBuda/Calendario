@@ -75,7 +75,7 @@ if (mesPreExistenteEnLocalStorage){
 
 
 // Función para renderizar mes elegido en pantalla ↓
-function elegirMes() {
+async function elegirMes() {
 
     // Elimino las clases que van a marcar que día empieza el mes, para luego asignarle la correcta
     primerDia = document.querySelector('.primerDia');
@@ -145,7 +145,18 @@ function elegirMes() {
 
     localStorage.setItem("mesElegido", mesSeleccionado.value);
 
+await mostrarDiasYAsignarIds (diasEnMes);
 
+}
+
+
+
+
+
+
+
+
+function mostrarDiasYAsignarIds (diasEnMes){
     // Obtener la lista de días del calendario
     const listaDias = document.querySelectorAll('.days');
 
