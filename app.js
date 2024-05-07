@@ -142,10 +142,14 @@ async function elegirMes() {
         default:
             diasEnMes = 0; // Manejar el caso de un mes inválido
     }
+    setTimeout(() => {
+        
+        mostrarDiasYAsignarIds (diasEnMes);
+        
+    }, 0);
 
     localStorage.setItem("mesElegido", mesSeleccionado.value);
 
-await mostrarDiasYAsignarIds (diasEnMes);
 
 }
 
