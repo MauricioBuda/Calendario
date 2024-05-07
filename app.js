@@ -143,7 +143,7 @@ async function elegirMes() {
             diasEnMes = 0; // Manejar el caso de un mes inválido
     }
     setTimeout(() => {
-        
+
         mostrarDiasYAsignarIds (diasEnMes);
         
     }, 0);
@@ -160,7 +160,7 @@ async function elegirMes() {
 
 
 
-function mostrarDiasYAsignarIds (diasEnMes){
+async function mostrarDiasYAsignarIds (diasEnMes){
     // Obtener la lista de días del calendario
     const listaDias = document.querySelectorAll('.days');
 
