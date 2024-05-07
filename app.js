@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", function() {
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
 mesSeleccionado.addEventListener("change", elegirMes);
@@ -273,3 +274,4 @@ function cerrarElFormulario (){
             selector.classList.remove('poner-borroso');
         });
 }
+});
