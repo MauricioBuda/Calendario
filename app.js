@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
 mesSeleccionado.addEventListener("change", elegirMes);
@@ -71,12 +71,12 @@ asignarEventosSegunDondeHagaClick();
 if (mesPreExistenteEnLocalStorage){
     mesSeleccionado.value = mesPreExistenteEnLocalStorage;
     elegirMes();
-}
+} 
 
 
 
 // Función para renderizar mes elegido en pantalla ↓
-async function elegirMes() {
+function elegirMes() {
 
     // Elimino las clases que van a marcar que día empieza el mes, para luego asignarle la correcta
     primerDia = document.querySelector('.primerDia');
@@ -87,6 +87,8 @@ async function elegirMes() {
     primerDia.classList.remove("empiezaViernes");
     primerDia.classList.remove("empiezaSabado");
     primerDia.classList.remove("empiezaDomingo");
+
+    console.log(mesSeleccionado.value)
 
     // Obtener el número de días para el mes seleccionado
     let diasEnMes = 0;
@@ -143,25 +145,10 @@ async function elegirMes() {
         default:
             diasEnMes = 0; // Manejar el caso de un mes inválido
     }
-    setTimeout(() => {
-
-        mostrarDiasYAsignarIds (diasEnMes);
-        
-    }, 0);
 
     localStorage.setItem("mesElegido", mesSeleccionado.value);
 
 
-}
-
-
-
-
-
-
-
-
-async function mostrarDiasYAsignarIds (diasEnMes){
     // Obtener la lista de días del calendario
     const listaDias = document.querySelectorAll('.days');
 
@@ -177,6 +164,10 @@ async function mostrarDiasYAsignarIds (diasEnMes){
         }
     });
 }
+
+
+
+
 
 
 
@@ -274,4 +265,3 @@ function cerrarElFormulario (){
             selector.classList.remove('poner-borroso');
         });
 }
-});
