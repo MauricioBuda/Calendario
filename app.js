@@ -1,6 +1,7 @@
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
 mesSeleccionado.addEventListener("change", elegirMes);
+let diaSeleccionado = 0;
 
 
 let modalFormulario = document.getElementById("modal-formulario");
@@ -10,9 +11,9 @@ let selectores = document.querySelectorAll('.selectores');
 let olCalendario = document.getElementById("ol-calendario");
 let btnResumen = document.getElementById("resumen");
 
-let btnAdd = `<svg xmlns="http://www.w3.org/2000/svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+<path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg>`
 
 
@@ -39,6 +40,10 @@ function asignarEventosSegunDondeHagaClick() {
         else if (event.target.id.startsWith("close-formulario")) {
             cerrarElFormulario();
           } 
+
+        else if (event.target.id.startsWith("add-formulario")) {
+            formularioNuevaTarea(diaSeleccionado);
+        } 
     })
 }  
 
@@ -169,6 +174,7 @@ function elegirMes() {
 function clickEnCasilla(dia){
     // Elimino el display none que venía arrastrando
     modalFormulario.classList.remove("aplicar-display-none");
+    diaSeleccionado = dia;
 
     // Acomodo las clases para que el fondo quede borroso
     olCalendario.classList.add("poner-borroso");
@@ -177,17 +183,63 @@ function clickEnCasilla(dia){
         selector.classList.add('poner-borroso');
     });
 
+
+
     let contenedorParaModal = document.getElementById("modal-formulario");
     let formulario = document.createElement("div");
     formulario.innerHTML = `
     <div id="modal-formulario" class="formulario">
-    <button id="add-formulario" class="formulario-add">${btnAdd}</i></button>
+    <button id="add-formulario" class="formulario-add">${btnAddSVG}</i></button>
     <button id="close-formulario" class="formulario-close">X</button>
       <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
     </div>
     `;
     
     contenedorParaModal.appendChild(formulario)
+}
+
+
+
+
+
+
+
+// Abrir formulario para nueva tarea ↓
+function formularioNuevaTarea(dia){
+    console.log("si")
+
+
+    let contenedorParaModal = document.getElementById("modal-formulario");
+    let nuevaTarea = document.createElement("div");
+    nuevaTarea.innerHTML = `
+    <div class="formulario-nueva-tarea">
+    <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
+    <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${mesSeleccionado.value}</h1>
+    <div class="div-selectores-formulario">
+      <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionista" >
+        <option disabled selected> RECEPCIONISTA </option>
+        <option value="Angela"> ÁNGELA</option>
+        <option value="Camila">CAMILA</option>
+        <option value="Quimey">QUIMEY</option>
+        <option value="Rocío">ROCÍO</option>
+      </select>
+
+      <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividad" >
+        <option disabled selected> TIPO DE LICENCIA</option>
+        <option value="HomeOffice" >HOME OFFICE</option>
+        <option value="DiaEstudio" >DÍA DE ESTUDIO </option>
+        <option value="Vacaciones" >VACACIONES </option>
+        <option value="HorasExtra" >HORAS EXTRA </option>
+        <option value="HorasDeuda" >HORAS ADUDADAS </option>
+        <option value="Enfermedad" >ENFERMEDAD</option>
+        <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
+        <option value="Otras" >OTRAS LICENCIAS </option>
+      </select>
+    </div>
+  </div>
+    `;
+    
+    contenedorParaModal.appendChild(nuevaTarea)
 }
 
 

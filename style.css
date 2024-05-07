@@ -21,6 +21,7 @@ svg{
 }
 
 .home{
+color: white;
 background-color: green;
 }
 
@@ -31,6 +32,15 @@ background-color: green;
 .vacaciones{
   color: white;
   background-color: blue;
+}
+
+.extra{
+  color: white;
+  background-color: rgba(0, 192, 0, 0.757);
+}
+
+.deuda{
+  background-color: rgba(255, 0, 0, 0.423);
 }
 
 .enfermedad{
@@ -182,7 +192,7 @@ ol{
 
 
 
-/* INICIA FORMULARIO ↓ */
+/* INICIA MODAL DE DAYS ↓ */
 .formulario{
   position: absolute;
   width: 70%;
@@ -260,4 +270,76 @@ svg{
     width: 8vw;
   }
 }
+/* TERMINA MODAL DE DAYS ↑ */
+
+
+
+
+
+
+/* INICIA FOMRULARIO ↓ */
+.formulario-nueva-tarea{
+  position: absolute;
+  width: 70%;
+  height: 90%;
+  top: 5%;
+  left: 15%;
+  background-image: repeating-linear-gradient(284deg, transparent 0px, transparent 1px,rgba(251,251,251, 0.43) 1px, rgba(251,251,251, 0.43) 3px),repeating-linear-gradient(14deg, transparent 0px, transparent 1px,rgba(251,251,251, 0.43) 1px, rgba(251,251,251, 0.43) 3px),linear-gradient(90deg, rgb(222,222,222),rgb(222,222,222));
+  border-radius: 15px;
+}
+
+.h1-formulario-nueva-tarea{
+  margin-top: 6vh;
+  text-align: center;
+}
+
+.formulario-close-nueva-tarea{
+  font-size: 1.5vw;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  color: red;
+  font-weight: bold;
+  position: absolute;
+  top: 1%;
+  left: 96%;
+}
+
+.formulario-close-nueva-tarea:hover{
+  color: rgb(169, 0, 0);
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+.div-selectores-formulario{
+  display: flex;
+  flex-direction: column;
+  margin: 5vw 20vw;
+}
+
+.selectores-formulario{
+  text-align: center;
+  border-radius: 10px;
+  margin-top: 4vh;
+}
+
+
+
+
+
+
+/* MEDIA QUERYS */
+@media screen and (max-width: 524px) {
+
+  .formulario-nueva-tarea{
+    width: 90%;
+    left: 5%;
+  }
+
+.formulario-close-nueva-tarea{
+  font-size: 7vw;
+  top: 0.1%;
+  left: 88%;
+}
+
+}
 /* TERMINA FORMULARIO ↑ */
+
