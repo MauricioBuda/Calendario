@@ -2,8 +2,13 @@
 let mesSeleccionado = document.getElementById("selectorMes");
 mesSeleccionado.addEventListener("change", elegirMes);
 
+
 let modalFormulario = document.getElementById("modal-formulario");
 let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
+
+let selectores = document.querySelectorAll('.selectores');
+let olCalendario = document.getElementById("ol-calendario");
+let btnResumen = document.getElementById("resumen");
 
 let btnAdd = `<svg xmlns="http://www.w3.org/2000/svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -17,11 +22,9 @@ let btnAdd = `<svg xmlns="http://www.w3.org/2000/svg" " fill="currentColor" clas
 
 
 
-  
-  
-  
-  
-  
+
+
+
 // Función para asignar los eventos dependiendo donde haga click ↓
 function asignarEventosSegunDondeHagaClick() {
     // Asignar eventos a los botones
@@ -39,8 +42,11 @@ function asignarEventosSegunDondeHagaClick() {
     })
 }  
 
+
+
+
+// Ejecuto la función que define funcionalidad de muchos botones
 asignarEventosSegunDondeHagaClick();
-// elegirMes();
 
 
 
@@ -49,17 +55,6 @@ asignarEventosSegunDondeHagaClick();
 
 
 
-
-
-
-
-
-
-
-function pintarCuadro(id){
-    let cuadroSeleccionado = document.getElementById(`day-${id}`);
-    cuadroSeleccionado.classList.toggle("rojo")
-}
 
 
 
@@ -76,7 +71,9 @@ if (mesPreExistenteEnLocalStorage){
 
 // Función para renderizar mes elegido en pantalla ↓
 function elegirMes() {
-    primerDia = document.getElementById("day-1")
+
+    // Elimino las clases que van a marcar que día empieza el mes, para luego asignarle la correcta
+    primerDia = document.querySelector('.primerDia');
     primerDia.classList.remove("empiezaLunes");
     primerDia.classList.remove("empiezaMartes");
     primerDia.classList.remove("empiezaMiercoles");
@@ -150,6 +147,7 @@ function elegirMes() {
     // Iterar sobre los elementos de la lista y mostrar/ocultar según la cantidad de días en el mes
     listaDias.forEach((dia, indice) => {
         if (indice + 1 <= diasEnMes) {
+            dia.id = `day-${dia.textContent}-${mesSeleccionado.value}`;
             // Mostrar días válidos
             dia.style.display = 'list-item';
         } else {
@@ -169,7 +167,15 @@ function elegirMes() {
 
 // Renderizar modal con tareas ↓
 function clickEnCasilla(dia){
+    // Elimino el display none que venía arrastrando
     modalFormulario.classList.remove("aplicar-display-none");
+
+    // Acomodo las clases para que el fondo quede borroso
+    olCalendario.classList.add("poner-borroso");
+    btnResumen.classList.add("poner-borroso");
+    selectores.forEach(selector => {
+        selector.classList.add('poner-borroso');
+    });
 
     let contenedorParaModal = document.getElementById("modal-formulario");
     let formulario = document.createElement("div");
@@ -193,4 +199,12 @@ function clickEnCasilla(dia){
 // Función para cerrar modal ↓
 function cerrarElFormulario (){
     modalFormulario.classList.add("aplicar-display-none");
+
+    // Saco lo borroso
+        // Acomodo las clases para que el fondo quede borroso
+        olCalendario.classList.remove("poner-borroso");
+        btnResumen.classList.remove("poner-borroso");
+        selectores.forEach(selector => {
+            selector.classList.remove('poner-borroso');
+        });
 }
