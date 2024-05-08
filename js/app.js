@@ -229,30 +229,35 @@ function formularioNuevaTarea(dia){
     let nuevaTarea = document.createElement("div");
     nuevaTarea.innerHTML = `
     <div class="formulario-nueva-tarea">
-    <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
-    <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${mesSeleccionado.value}</h1>
-    <div class="div-selectores-formulario">
-      <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionista" >
-        <option disabled selected> RECEPCIONISTA </option>
-        <option value="Angela"> ÁNGELA</option>
-        <option value="Camila">CAMILA</option>
-        <option value="Quimey">QUIMEY</option>
-        <option value="Rocío">ROCÍO</option>
-      </select>
+      <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
+      <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${mesSeleccionado.value}</h1>
+      <div class="div-selectores-formulario">
+        <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionista" >
+          <option disabled selected> RECEPCIONISTA </option>
+          <option value="Angela"> ÁNGELA</option>
+          <option value="Camila">CAMILA</option>
+          <option value="Quimey">QUIMEY</option>
+          <option value="Rocío">ROCÍO</option>
+        </select>
+  
+        <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividad" >
+          <option disabled selected> TIPO DE LICENCIA</option>
+          <option value="HomeOffice" >HOME OFFICE</option>
+          <option value="DiaEstudio" >DÍA DE ESTUDIO </option>
+          <option value="Vacaciones" >VACACIONES </option>
+          <option value="HorasExtra" >HORAS EXTRA </option>
+          <option value="HorasDeuda" >HORAS ADUDADAS </option>
+          <option value="Enfermedad" >ENFERMEDAD</option>
+          <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
+          <option value="Otras" >OTRAS LICENCIAS </option>
+        </select>
+      </div>
 
-      <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividad" >
-        <option disabled selected> TIPO DE LICENCIA</option>
-        <option value="HomeOffice" >HOME OFFICE</option>
-        <option value="DiaEstudio" >DÍA DE ESTUDIO </option>
-        <option value="Vacaciones" >VACACIONES </option>
-        <option value="HorasExtra" >HORAS EXTRA </option>
-        <option value="HorasDeuda" >HORAS ADUDADAS </option>
-        <option value="Enfermedad" >ENFERMEDAD</option>
-        <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
-        <option value="Otras" >OTRAS LICENCIAS </option>
-      </select>
+      <div class="div-botones-formulario">
+        <button id="aceptar-formulario" class="botones-formulario">ACEPTAR</button>
+        <button id="cancelar-formulario" class="botones-formulario">CANCELAR</button>
+      </div>
     </div>
-  </div>
     `;
     
     contenedorParaModal.appendChild(nuevaTarea)

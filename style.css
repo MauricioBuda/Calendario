@@ -370,6 +370,16 @@ svg{
   left: 88%;
 }
 
+.h1-formulario-nueva-tarea{
+  font-size: 6vw;
+}
+
+
+.botones-formulario{
+  min-width: 25vw;
+  font-size: 5vw;
+}
+
 }
 /* TERMINA FORMULARIO ↑ */
 
