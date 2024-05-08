@@ -17,6 +17,18 @@ let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg"
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg>`
 
+// Declaro contadores de licencias
+let vacacionesAngie = 14;
+let vacacionesCami = 14; 
+let vacacionesRo = 21; 
+let vacacionesQuimey = 14; 
+
+let estudioAngie = 10;
+let estudioCami = 10;
+let estudioRo = 10;
+let estudioQuimey = 10;
+
+
 
 
 
@@ -88,7 +100,6 @@ function elegirMes() {
     primerDia.classList.remove("empiezaSabado");
     primerDia.classList.remove("empiezaDomingo");
 
-    console.log(mesSeleccionado.value)
 
     // Obtener el número de días para el mes seleccionado
     let diasEnMes = 0;

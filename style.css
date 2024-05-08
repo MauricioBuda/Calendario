@@ -278,18 +278,28 @@ svg{
 
 
 
+
+
+
+
+
+
 /* INICIA FOMRULARIO ↓ */
 .formulario-nueva-tarea{
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
   width: 70%;
   height: 90%;
   top: 5%;
   left: 15%;
-  background-image: repeating-linear-gradient(284deg, transparent 0px, transparent 1px,rgba(251,251,251, 0.43) 1px, rgba(251,251,251, 0.43) 3px),repeating-linear-gradient(14deg, transparent 0px, transparent 1px,rgba(251,251,251, 0.43) 1px, rgba(251,251,251, 0.43) 3px),linear-gradient(90deg, rgb(222,222,222),rgb(222,222,222));
+  background-image: repeating-linear-gradient(284deg, transparent 0px, transparent 1px,rgba(126, 42, 243, 0.393) 1px, rgba(251,251,251, 0.43) 3px),repeating-linear-gradient(14deg, transparent 0px, transparent 1px,rgba(251, 251, 251, 0.43) 1px, rgba(251,251,251, 0.43) 3px),linear-gradient(90deg, rgb(222,222,222),rgb(222,222,222));
   border-radius: 15px;
 }
 
 .h1-formulario-nueva-tarea{
+  font-size: 2vw;
   margin-top: 6vh;
   text-align: center;
 }
@@ -322,6 +332,25 @@ svg{
   margin-top: 4vh;
 }
 
+.div-botones-formulario{
+  display: flex;
+  justify-content: center;
+  margin-top: 25vh;
+}
+
+.botones-formulario{
+  min-width: 10vw;
+  font-size: 1.5vw;
+  border: none;
+  border-radius: 10px;
+  background-color: rgba(0, 188, 0, 0.337);
+  margin: 0 3vw;
+}
+
+.botones-formulario:hover{
+  text-shadow: 1px 1px 3px black;
+  background-color: rgba(0, 188, 0, 0.539);
+}
 
 
 
