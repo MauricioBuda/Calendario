@@ -1,3 +1,4 @@
+import { traerLicenciasRestantes } from "./firebaseConfig";
 
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
@@ -10,25 +11,71 @@ let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
 
 let selectores = document.querySelectorAll('.selectores');
 let olCalendario = document.getElementById("ol-calendario");
+
 let btnResumen = document.getElementById("resumen");
+btnResumen.addEventListener("click", desplegarResumen);
+let contenedorResumen = document.getElementById("section-contenedor-resumen");
+
+// Declaro contadores de licencias
+let vacacionesAngie
+let vacacionesCami 
+let vacacionesRo 
+let vacacionesQuimey 
+
+let estudioAngie
+let estudioCami
+let estudioRo
+let estudioQuimey
+
 
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg>`
 
-// Declaro contadores de licencias
-let vacacionesAngie = 14;
-let vacacionesCami = 14; 
-let vacacionesRo = 21; 
-let vacacionesQuimey = 14; 
-
-let estudioAngie = 10;
-let estudioCami = 10;
-let estudioRo = 10;
-let estudioQuimey = 10;
 
 
+
+
+
+
+function mostrarCarga() {
+    modalCarga.style.display = 'flex';
+  }
+  // Ocultar el modal de carga
+  function ocultarCarga() {
+    modalCarga.style.display = 'none';
+  }
+
+
+
+
+  
+
+
+
+
+
+// Traer licencias restantes de la db
+async function actualizarLicenciasRestantes () {
+ try {
+    let datos = await traerLicenciasRestantes();
+    datos.forEach(element => {
+      // Imprime cada campo individualmente
+      estudioAngie = element.estudioAngie;
+      estudioCami = element.estudioCami;
+      estudioRo = element.estudioRo;
+      estudioQuimey = element.estudioQuimey;
+
+      vacacionesAngie = element.vacacionesAngie;
+      vacacionesCami = element.vacacionesCami;
+      vacacionesRo = element.vacacionesRo;
+      vacacionesQuimey = element.vacacionesQuimey;
+    });
+  } catch (error) {
+    console.error('Error al actualizar las licencias restantes: ', error);
+  }
+}
 
 
 
@@ -57,6 +104,10 @@ function asignarEventosSegunDondeHagaClick() {
         else if (event.target.id.startsWith("add-formulario")) {
             formularioNuevaTarea(diaSeleccionado);
         } 
+
+        else if (event.target.id.startsWith("aceptar-formulario")) {
+            cargarTarea();
+        } 
     })
 }  
 
@@ -65,11 +116,6 @@ function asignarEventosSegunDondeHagaClick() {
 
 // Ejecuto la función que define funcionalidad de muchos botones
 asignarEventosSegunDondeHagaClick();
-
-
-
-
-
 
 
 
@@ -91,7 +137,7 @@ if (mesPreExistenteEnLocalStorage){
 function elegirMes() {
 
     // Elimino las clases que van a marcar que día empieza el mes, para luego asignarle la correcta
-    primerDia = document.querySelector('.primerDia');
+    let primerDia = document.querySelector('.primerDia');
     primerDia.classList.remove("empiezaLunes");
     primerDia.classList.remove("empiezaMartes");
     primerDia.classList.remove("empiezaMiercoles");
@@ -202,7 +248,6 @@ function clickEnCasilla(dia){
     });
 
 
-
     let contenedorParaModal = document.getElementById("modal-formulario");
     let formulario = document.createElement("div");
     formulario.innerHTML = `
@@ -280,4 +325,67 @@ function cerrarElFormulario (){
         selectores.forEach(selector => {
             selector.classList.remove('poner-borroso');
         });
+}
+
+
+
+
+async function desplegarResumen () {
+    let cardsResumen = document.createElement("div");
+    cardsResumen.innerHTML = `
+    <div class="cards-resumen">
+    <div class="card-resumen card-angie">
+      <h1 class="h1-cards">Resumen licencias Angie</h1>
+      <div class="div-p-cards">
+        <p>Vacaciones: </p>
+        <p>Días estudio: </p>
+        <p>Horas extra: </p>
+        <p>Horas adeudadas: </p>
+      </div>
+    </div>
+
+    <div class="card-resumen card-cami">
+      <h1 class="h1-cards">Resumen licencias Cami</h1>
+      <div class="div-p-cards">
+        <p>Vacaciones: </p>
+        <p>Días estudio: </p>
+        <p>Horas extra: </p>
+        <p>Horas adeudadas: </p>
+      </div>
+    </div>
+
+    <div class="card-resumen card-ro">
+      <h1 class="h1-cards">Resumen licencias Ro</h1>
+      <div class="div-p-cards">
+        <p>Vacaciones: </p>
+        <p>Días estudio: </p>
+        <p>Horas extra: </p>
+        <p>Horas adeudadas: </p>
+      </div>
+    </div>
+
+    <div class="card-resumen card-quimey">
+      <h1 class="h1-cards">Resumen licencias Quimey</h1>
+      <div class="div-p-cards">
+        <p>Vacaciones: </p>
+        <p>Días estudio: </p>
+        <p>Horas extra: </p>
+        <p>Horas adeudadas: </p>
+      </div>
+    </div>
+  </div>
+    `
+
+    contenedorResumen.appendChild(cardsResumen)
+}
+
+
+
+
+
+
+
+// Cargar tarea en db ↓
+function cargarTarea () {
+    console.log("si")
 }
