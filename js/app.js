@@ -1,17 +1,20 @@
 import { traerLicenciasRestantes } from "./firebaseConfig";
 
 //   Declaro variables y asigno eventos ↓
+
+
+// Calendario
+let selectores = document.querySelectorAll('.selectores');
 let mesSeleccionado = document.getElementById("selectorMes");
+let olCalendario = document.getElementById("ol-calendario");
 mesSeleccionado.addEventListener("change", elegirMes);
 let diaSeleccionado = 0;
-
-
-let modalFormulario = document.getElementById("modal-formulario");
 let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
 
-let selectores = document.querySelectorAll('.selectores');
-let olCalendario = document.getElementById("ol-calendario");
+// Formulario
+let modalFormulario = document.getElementById("modal-formulario");
 
+// Resumen
 let btnResumen = document.getElementById("resumen");
 btnResumen.addEventListener("click", desplegarResumen);
 let contenedorResumen = document.getElementById("section-contenedor-resumen");
@@ -27,7 +30,17 @@ let estudioCami
 let estudioRo
 let estudioQuimey
 
+let extraAngie
+let extraCami
+let extraRo
+let extraQuimey
 
+let deudaAngie
+let deudaCami
+let deudaRo
+let deudaQuimey
+
+//  SVG
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -58,6 +71,7 @@ function mostrarCarga() {
 
 // Traer licencias restantes de la db
 async function actualizarLicenciasRestantes () {
+  mostrarCarga();
  try {
     let datos = await traerLicenciasRestantes();
     datos.forEach(element => {
@@ -71,8 +85,20 @@ async function actualizarLicenciasRestantes () {
       vacacionesCami = element.vacacionesCami;
       vacacionesRo = element.vacacionesRo;
       vacacionesQuimey = element.vacacionesQuimey;
+
+      extraAngie = element.extraAngie;
+      extraCami = element.extraCami; 
+      extraRo = element.extraRo;
+      extraQuimey = element.extraQuimey;
+
+      deudaAngie = element.deudaAngie;
+      deudaCami = element.deudaCami;
+      deudaRo = element.deudaRo;
+      deudaQuimey = element.deudaQuimey;
     });
+    ocultarCarga();
   } catch (error) {
+    ocultarCarga();
     console.error('Error al actualizar las licencias restantes: ', error);
   }
 }
@@ -97,7 +123,7 @@ function asignarEventosSegunDondeHagaClick() {
           clickEnCasilla(event.target.id.split("-")[1]);
         } 
 
-        else if (event.target.id.startsWith("close-formulario")) {
+        else if (event.target.id.startsWith("close-formulario") || event.target.id.startsWith("cancelar-formulario")) {
             cerrarElFormulario();
           } 
 
@@ -108,6 +134,10 @@ function asignarEventosSegunDondeHagaClick() {
         else if (event.target.id.startsWith("aceptar-formulario")) {
             cargarTarea();
         } 
+
+        else if (event.target.id.startsWith("btn-close-resumen")) {
+          closeResumen();
+      } 
     })
 }  
 
@@ -235,6 +265,7 @@ function ponerSacarBorroso () {
     btnResumen.classList.toggle("poner-borroso");
     selectores.forEach(selector => {
         selector.classList.toggle('poner-borroso');
+        selector.disabled = !selector.disabled;
     });
 }
 
@@ -327,64 +358,81 @@ function formularioNuevaTarea(dia){
 // Función para cerrar modal ↓
 function cerrarElFormulario (){
     modalFormulario.classList.add("aplicar-display-none");
+    ponerSacarBorroso();
 
-        ponerSacarBorroso();
 }
 
 
 
 
 async function desplegarResumen () {
+  contenedorResumen.classList.remove("aplicar-display-none");
 
+
+    await actualizarLicenciasRestantes();
     ponerSacarBorroso();
 
     let cardsResumen = document.createElement("div");
     cardsResumen.innerHTML = `
-    <button class="btn-close-resumen">X</button>
+    <button class="btn-close-resumen" id="btn-close-resumen">X</button>
   <div class="cards-resumen">
     <div class="card-resumen card-angie">
       <h1 class="h1-cards">Resumen licencias Angie</h1>
       <div class="div-p-cards">
-        <p>Vacaciones: </p>
-        <p>Días estudio: </p>
-        <p>Horas extra: </p>
-        <p>Horas adeudadas: </p>
+        <p>Vacaciones: ${vacacionesAngie}/14 </p>
+        <p>Días estudio: ${estudioAngie}/10</p>
+        <p>Horas extra: ${extraAngie}</p>
+        <p>Horas adeudadas: ${deudaAngie} </p>
       </div>
     </div>
 
     <div class="card-resumen card-cami">
       <h1 class="h1-cards">Resumen licencias Cami</h1>
       <div class="div-p-cards">
-        <p>Vacaciones: </p>
-        <p>Días estudio: </p>
-        <p>Horas extra: </p>
-        <p>Horas adeudadas: </p>
+      <p>Vacaciones: ${vacacionesCami}/14 </p>
+      <p>Días estudio: ${estudioCami}/10</p>
+      <p>Horas extra: ${extraCami}</p>
+      <p>Horas adeudadas: ${deudaCami} </p>
       </div>
     </div>
 
     <div class="card-resumen card-ro">
       <h1 class="h1-cards">Resumen licencias Ro</h1>
       <div class="div-p-cards">
-        <p>Vacaciones: </p>
-        <p>Días estudio: </p>
-        <p>Horas extra: </p>
-        <p>Horas adeudadas: </p>
+      <p>Vacaciones: ${vacacionesRo}/21 </p>
+      <p>Días estudio: ${estudioRo}/10</p>
+      <p>Horas extra: ${extraRo}</p>
+      <p>Horas adeudadas: ${deudaRo} </p>
       </div>
     </div>
 
     <div class="card-resumen card-quimey">
       <h1 class="h1-cards">Resumen licencias Quimey</h1>
       <div class="div-p-cards">
-        <p>Vacaciones: </p>
-        <p>Días estudio: </p>
-        <p>Horas extra: </p>
-        <p>Horas adeudadas: </p>
+      <p>Vacaciones: ${vacacionesQuimey}/14 </p>
+      <p>Días estudio: ${estudioQuimey}/10</p>
+      <p>Horas extra: ${extraQuimey}</p>
+      <p>Horas adeudadas: ${deudaQuimey} </p>
       </div>
     </div>
   </div>
     `
-
+    btnResumen.disabled = true;
     contenedorResumen.appendChild(cardsResumen)
+}
+
+
+
+
+
+
+// Cerrar resumen ↓
+function closeResumen () {
+  btnResumen.disabled = false;
+
+  contenedorResumen.classList.add("aplicar-display-none");
+
+  ponerSacarBorroso();
 }
 
 

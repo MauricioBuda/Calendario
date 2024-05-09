@@ -384,8 +384,6 @@ svg{
   margin-top: 45vh;
 }
 
-
-
 .botones-formulario{
   min-width: 25vw;
   font-size: 5vw;
@@ -405,7 +403,7 @@ svg{
 .cards-resumen{
   position: absolute;
   top: 5%;
-  left: 3%;
+  left: 1%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
@@ -414,8 +412,8 @@ svg{
   font-size: 1vw;
   font-weight: bold;
   position: absolute;
-  top: 2%;
-  left: 1%;
+  top: 1%;
+  right: 1%;
   border: none;
   border-radius: 50%;
   background-color: red;
@@ -437,10 +435,10 @@ svg{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 45vw;
+  width: 46vw;
   height: 40vh;
   border-radius: 15px;
-  margin: 1vw;
+  margin: 1.5vw;
   background-image: radial-gradient(circle at 91% 26%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 3%,transparent 3%, transparent 100%),radial-gradient(circle at 27% 63%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 3%,transparent 3%, transparent 100%),radial-gradient(circle at 59% 48%, rgba(255,255,255, 0.13) 0%, rgba(255,255,255, 0.13) 3%,transparent 3%, transparent 100%),radial-gradient(circle at 58% 65%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 3%,transparent 3%, transparent 100%),radial-gradient(circle at 55% 21%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 3%,transparent 3%, transparent 100%),radial-gradient(circle at 88% 4%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 9% 23%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 40% 78%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 78% 5%, rgba(255,255,255, 0.13) 0%, rgba(255,255,255, 0.13) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 11% 87%, rgba(255,255,255, 0.13) 0%, rgba(255,255,255, 0.13) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 11% 24%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 18% 75%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 71% 80%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 7%,transparent 7%, transparent 100%),radial-gradient(circle at 34% 79%, rgba(255,255,255, 0.13) 0%, rgba(255,255,255, 0.13) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 9% 51%, rgba(255,255,255, 0.12) 0%, rgba(255,255,255, 0.12) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 46% 69%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 54% 90%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 55% 58%, rgba(255,255,255, 0.13) 0%, rgba(255,255,255, 0.13) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 95% 37%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 5%,transparent 5%, transparent 100%),radial-gradient(circle at 9% 4%, rgba(255,255,255, 0.11) 0%, rgba(255,255,255, 0.11) 5%,transparent 5%, transparent 100%),linear-gradient(135deg, rgb(249,93,202),rgb(11,13,179));
 }
 
@@ -451,6 +449,33 @@ svg{
   flex-direction: column;
   text-align: start;
   padding: 1vw 2vw;
+}
+
+
+
+
+
+/* MEDIA QUERYS */
+@media screen and (max-width: 524px) {
+  .cards-resumen{
+    margin-top: 3vh;
+  }
+  
+  .btn-close-resumen{
+    font-size: 4vw;
+    right: 3%;
+  }
+  
+  .h1-cards{
+    margin-top: 2vw;
+    font-size: 4vw;
+  }
+  
+  
+  .div-p-cards{
+    font-size: 3vw;
+    padding: 5vh 2vw;
+  }
 }
 /* TERMINA CARDS RESUMEN ↑ */
 
