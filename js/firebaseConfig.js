@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, doc, setDoc, getDocs, collection } from "firebase/firestore"; 
+import { getFirestore, getDocs, collection } from "firebase/firestore"; 
 
 
 
