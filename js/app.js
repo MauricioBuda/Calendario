@@ -1,4 +1,4 @@
-// import { traerLicenciasRestantes } from "./firebaseConfig";
+import { traerLicenciasRestantes } from "./firebaseConfig";
 
 //   Declaro variables y asigno eventos ↓
 let mesSeleccionado = document.getElementById("selectorMes");
@@ -57,25 +57,25 @@ function mostrarCarga() {
 
 
 // Traer licencias restantes de la db
-// async function actualizarLicenciasRestantes () {
-//  try {
-//     let datos = await traerLicenciasRestantes();
-//     datos.forEach(element => {
-//       // Imprime cada campo individualmente
-//       estudioAngie = element.estudioAngie;
-//       estudioCami = element.estudioCami;
-//       estudioRo = element.estudioRo;
-//       estudioQuimey = element.estudioQuimey;
+async function actualizarLicenciasRestantes () {
+ try {
+    let datos = await traerLicenciasRestantes();
+    datos.forEach(element => {
+      // Imprime cada campo individualmente
+      estudioAngie = element.estudioAngie;
+      estudioCami = element.estudioCami;
+      estudioRo = element.estudioRo;
+      estudioQuimey = element.estudioQuimey;
 
-//       vacacionesAngie = element.vacacionesAngie;
-//       vacacionesCami = element.vacacionesCami;
-//       vacacionesRo = element.vacacionesRo;
-//       vacacionesQuimey = element.vacacionesQuimey;
-//     });
-//   } catch (error) {
-//     console.error('Error al actualizar las licencias restantes: ', error);
-//   }
-// }
+      vacacionesAngie = element.vacacionesAngie;
+      vacacionesCami = element.vacacionesCami;
+      vacacionesRo = element.vacacionesRo;
+      vacacionesQuimey = element.vacacionesQuimey;
+    });
+  } catch (error) {
+    console.error('Error al actualizar las licencias restantes: ', error);
+  }
+}
 
 
 
