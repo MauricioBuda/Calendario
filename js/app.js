@@ -365,11 +365,11 @@ function cerrarElFormulario (){
 
 
 async function desplegarResumen () {
-  contenedorResumen.classList.remove("aplicar-display-none");
+    contenedorResumen.classList.remove("aplicar-display-none");
 
+    ponerSacarBorroso();
 
     await actualizarLicenciasRestantes();
-    ponerSacarBorroso();
 
     let cardsResumen = document.createElement("div");
     cardsResumen.innerHTML = `
@@ -442,5 +442,15 @@ function closeResumen () {
 
 // Cargar tarea en db ↓
 function cargarTarea () {
-    console.log("si")
+    let recepcionistaFormulario = document.getElementById("recepcionistaFormulario");
+    let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
+
+    let recepcionistaElegida = recepcionistaFormulario.value;
+    let selectorActividadFormularioElegido = selectorActividadFormulario.value;
+
+    if (recepcionistaElegida === "RECEPCIONISTA" || selectorActividadFormularioElegido === "TIPO DE LICENCIA") {
+      console.log("NO")
+    } else {
+      
+    }
 }
