@@ -410,6 +410,23 @@ svg{
   grid-template-columns: repeat(2, 1fr);
 }
 
+.btn-close-resumen{
+  font-size: 1vw;
+  font-weight: bold;
+  position: absolute;
+  top: 2%;
+  left: 1%;
+  border: none;
+  border-radius: 50%;
+  background-color: red;
+  padding: 10px 15px;
+}
+
+.btn-close-resumen:hover{
+  text-shadow: 1px 1px 2px black;
+  background-color: rgba(255, 0, 0, 0.877);
+}
+
 .h1-cards{
   margin-top: 2vw;
 }

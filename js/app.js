@@ -229,6 +229,22 @@ function elegirMes() {
 
 
 
+function ponerSacarBorroso () {
+    // Acomodo las clases para que el fondo quede borroso
+    olCalendario.classList.toggle("poner-borroso");
+    btnResumen.classList.toggle("poner-borroso");
+    selectores.forEach(selector => {
+        selector.classList.toggle('poner-borroso');
+    });
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -240,13 +256,7 @@ function clickEnCasilla(dia){
     modalFormulario.classList.remove("aplicar-display-none");
     diaSeleccionado = dia;
 
-    // Acomodo las clases para que el fondo quede borroso
-    olCalendario.classList.add("poner-borroso");
-    btnResumen.classList.add("poner-borroso");
-    selectores.forEach(selector => {
-        selector.classList.add('poner-borroso');
-    });
-
+    ponerSacarBorroso();
 
     let contenedorParaModal = document.getElementById("modal-formulario");
     let formulario = document.createElement("div");
@@ -318,22 +328,20 @@ function formularioNuevaTarea(dia){
 function cerrarElFormulario (){
     modalFormulario.classList.add("aplicar-display-none");
 
-    // Saco lo borroso
-        // Acomodo las clases para que el fondo quede borroso
-        olCalendario.classList.remove("poner-borroso");
-        btnResumen.classList.remove("poner-borroso");
-        selectores.forEach(selector => {
-            selector.classList.remove('poner-borroso');
-        });
+        ponerSacarBorroso();
 }
 
 
 
 
 async function desplegarResumen () {
+
+    ponerSacarBorroso();
+
     let cardsResumen = document.createElement("div");
     cardsResumen.innerHTML = `
-    <div class="cards-resumen">
+    <button class="btn-close-resumen">X</button>
+  <div class="cards-resumen">
     <div class="card-resumen card-angie">
       <h1 class="h1-cards">Resumen licencias Angie</h1>
       <div class="div-p-cards">
