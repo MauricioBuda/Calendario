@@ -1,4 +1,4 @@
-import { traerLicenciasRestantes } from "./firebaseConfig";
+import { traerLicenciasRestantes } from "../js/firebaseConfig";
 
 //   Declaro variables y asigno eventos ↓
 
