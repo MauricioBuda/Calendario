@@ -416,11 +416,14 @@ svg{
   font-size: 6vw;
 }
 
+.div-selectores-formulario{
+  margin: 5vw 20vw;
+}
+
 .selectores-formulario{
   font-size: 4vw;
   margin-top: 4vh;
 }
-
 
 
 .botones-formulario{
@@ -434,14 +437,14 @@ svg{
 }
 
 .span-contador{
-  font-size: 8vw;
+  font-size: 7vw;
 }
 
 .btn-contador{
   display: flex;
   justify-content: center;
-  width: 8vw;
-  height: 8vw;
+  width: 10vw;
+  height: 10vw;
   font-size: 8vw;
 }
 
