@@ -323,20 +323,20 @@ async function formularioNuevaTarea(dia){
       <div class="div-selectores-formulario">
         <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionista" >
           <option disabled selected> RECEPCIONISTA </option>
-          <option value="Angela"> ÁNGELA</option>
-          <option value="Camila">CAMILA</option>
-          <option value="Quimey">QUIMEY</option>
-          <option value="Rocío">ROCÍO</option>
+          <option value="Angie"> ANGIE</option>
+          <option value="Cami">CAMI</option>
+          <option value="Quimey">QUIMI</option>
+          <option value="Ro">RO</option>
         </select>
   
         <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividad" >
           <option disabled selected> TIPO DE LICENCIA</option>
           <option value="HomeOffice" >HOME OFFICE</option>
-          <option value="DiaEstudio" >DÍA DE ESTUDIO </option>
-          <option value="Vacaciones" >VACACIONES </option>
-          <option value="HorasExtra" >HORAS EXTRA </option>
-          <option value="HorasDeuda" >HORAS ADUDADAS </option>
-          <option value="Enfermedad" >ENFERMEDAD</option>
+          <option value="estudio" >DÍA DE ESTUDIO </option>
+          <option value="vacaciones" >VACACIONES </option>
+          <option value="extra" >HORAS EXTRA </option>
+          <option value="deuda" >HORAS ADUDADAS </option>
+          <option value="Enfermedad">ENFERMEDAD</option>
           <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
           <option value="Otras" >OTRAS LICENCIAS </option>
         </select>
@@ -446,9 +446,18 @@ function restarHoras () {
 
 // Función para cerrar modal ↓
 function cerrarModalDeTareas (){
+
+  ponerSacarBorroso();
+
+    if (modalConTareas) {
     modalTareas.removeChild(modalConTareas);
+      
+    }
+
+    if (modalConFormulario) {
     contenedorFormulario.removeChild(modalConFormulario);
-    ponerSacarBorroso();
+      
+    }
 
 }
 
@@ -540,13 +549,12 @@ function cargarTarea () {
     let selectorActividadFormularioElegido = selectorActividadFormulario.value;
 
     console.log(selectorActividadFormularioElegido)
-    console.log(selectorActividadFormulario.value)
+    console.log(recepcionistaElegida)
 
     if (recepcionistaElegida === "RECEPCIONISTA" || selectorActividadFormularioElegido === "TIPO DE LICENCIA") {
-      console.log("NO")
+      console.log("COMPLETAR TODO")
     } else {
-      console.log(selectorActividadFormularioElegido)
-      switch (key) {
+      switch (act) {
         case value:
           
           break;
