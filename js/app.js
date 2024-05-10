@@ -10,8 +10,13 @@ mesSeleccionado.addEventListener("change", elegirMes);
 let diaSeleccionado = 0;
 let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
 
+// Tareas
+let modalTareas = document.getElementById("contenedor-tareas");
+let modalConTareas
+
 // Formulario
-let modalFormulario = document.getElementById("modal-formulario");
+let contenedorFormulario = document.getElementById("contenedor-formulario");
+let modalConFormulario
 
 // Resumen
 let btnResumen = document.getElementById("resumen");
@@ -116,7 +121,7 @@ function asignarEventosSegunDondeHagaClick() {
         } 
 
         else if (event.target.id.startsWith("close-formulario") || event.target.id.startsWith("cancelar-formulario")) {
-          cerrarElFormulario();
+          cerrarModalDeTareas();
           } 
 
         else if (event.target.id.startsWith("add-formulario")) {
@@ -284,22 +289,21 @@ function ponerSacarBorroso () {
 // Renderizar modal con tareas ↓
 function clickEnCasilla(dia){
     // Elimino el display none que venía arrastrando
-    modalFormulario.classList.remove("aplicar-display-none");
+    modalTareas.classList.remove("aplicar-display-none");
     diaSeleccionado = dia;
 
     ponerSacarBorroso();
 
-    let contenedorParaModal = document.getElementById("modal-formulario");
-    let formulario = document.createElement("div");
-    formulario.innerHTML = `
-    <div id="modal-formulario" class="formulario">
+    modalConTareas = document.createElement("div");
+    modalConTareas.innerHTML = `
+    <div id="div-contenedor-tareas" class="formulario">
     <button id="add-formulario" class="formulario-add">${btnAddSVG}</i></button>
     <button id="close-formulario" class="formulario-close">X</button>
       <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
     </div>
     `;
     
-    contenedorParaModal.appendChild(formulario)
+    modalTareas.appendChild(modalConTareas)
 }
 
 
@@ -311,9 +315,8 @@ function clickEnCasilla(dia){
 // Abrir formulario para nueva tarea ↓
 async function formularioNuevaTarea(dia){
 
-    let contenedorParaModal = document.getElementById("modal-formulario");
-    let nuevaTarea = document.createElement("div");
-    nuevaTarea.innerHTML = `
+    modalConFormulario = document.createElement("div");
+    modalConFormulario.innerHTML = `
     <div class="formulario-nueva-tarea">
       <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
       <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${mesSeleccionado.value}</h1>
@@ -357,7 +360,7 @@ async function formularioNuevaTarea(dia){
     `;
 
     
-    contenedorParaModal.appendChild(nuevaTarea);
+    contenedorFormulario.appendChild(modalConFormulario);
 
     
     let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
@@ -442,8 +445,9 @@ function restarHoras () {
 
 
 // Función para cerrar modal ↓
-function cerrarElFormulario (){
-    modalFormulario.classList.add("aplicar-display-none");
+function cerrarModalDeTareas (){
+    modalTareas.removeChild(modalConTareas);
+    contenedorFormulario.removeChild(modalConFormulario);
     ponerSacarBorroso();
 
 }
