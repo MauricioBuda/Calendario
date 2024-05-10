@@ -372,6 +372,8 @@ svg{
 }
 
 .span-contador{
+  text-align: center;
+  width: 5vw;
   font-size: 2vw;
 }
 
@@ -437,6 +439,7 @@ svg{
 }
 
 .span-contador{
+  width: 15vw;
   font-size: 7vw;
 }
 
