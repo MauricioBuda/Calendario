@@ -24,10 +24,11 @@ const db = getFirestore(app);
 async function traerLicenciasRestantes() {
   let datos = [];
   try {
-      const querySnapshot = await getDocs(collection(db, 'licencias'));
+      const querySnapshot = await getDocs(collection(db, 'LICENCIAS'));
       querySnapshot.forEach((doc) => {
           // console.log(doc.id, ' => ', doc.data());
           let data = doc.data();
+          data.id = doc.id;
           datos.push(data); // Almacena los datos en un array
       });
       return datos; // Devuelve el array de datos después de que se hayan agregado todos los documentos

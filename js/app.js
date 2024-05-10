@@ -19,25 +19,10 @@ btnResumen.addEventListener("click", desplegarResumen);
 let contenedorResumen = document.getElementById("section-contenedor-resumen");
 
 // Declaro contadores de licencias
-let vacacionesAngie
-let vacacionesCami 
-let vacacionesRo 
-let vacacionesQuimey 
-
-let estudioAngie
-let estudioCami
-let estudioRo
-let estudioQuimey
-
-let extraAngie
-let extraCami
-let extraRo
-let extraQuimey
-
-let deudaAngie
-let deudaCami
-let deudaRo
-let deudaQuimey
+let licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
 //  SVG
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -74,26 +59,34 @@ async function actualizarLicenciasRestantes () {
  try {
     let datos = await traerLicenciasRestantes();
     datos.forEach(element => {
-      // Imprime cada campo individualmente
-      estudioAngie = element.estudioAngie;
-      estudioCami = element.estudioCami;
-      estudioRo = element.estudioRo;
-      estudioQuimey = element.estudioQuimey;
 
-      vacacionesAngie = element.vacacionesAngie;
-      vacacionesCami = element.vacacionesCami;
-      vacacionesRo = element.vacacionesRo;
-      vacacionesQuimey = element.vacacionesQuimey;
+      if (element.id === "Angie") {
+        licenciaAngie.vacaciones = element.vacaciones;
+        licenciaAngie.estudio = element.estudio;
+        licenciaAngie.extra = element.extra;
+        licenciaAngie.deuda = element.deuda;
+      }
+      if (element.id === "Cami") {
+      licenciaCami.vacaciones = element.vacaciones;
+      licenciaCami.estudio = element.estudio;
+      licenciaCami.extra = element.extra;
+      licenciaCami.deuda = element.deuda;
+      }
 
-      extraAngie = element.extraAngie;
-      extraCami = element.extraCami; 
-      extraRo = element.extraRo;
-      extraQuimey = element.extraQuimey;
+      if (element.id === "Rocio") {
+      licenciaRo.vacaciones = element.vacaciones;
+      licenciaRo.estudio = element.estudio; 
+      licenciaRo.extra = element.extra;
+      licenciaRo.deuda = element.deuda;
+      }
 
-      deudaAngie = element.deudaAngie;
-      deudaCami = element.deudaCami;
-      deudaRo = element.deudaRo;
-      deudaQuimey = element.deudaQuimey;
+      if (element.id === "Quimey") {
+        licenciaQuimey.vacaciones = element.vacaciones;
+        licenciaQuimey.estudio = element.estudio;
+        licenciaQuimey.extra = element.extra;
+        licenciaQuimey.deuda = element.deuda;
+      }
+
     });
     ocultarCarga();
   } catch (error) {
@@ -378,40 +371,40 @@ async function desplegarResumen () {
     <div class="card-resumen card-angie">
       <h1 class="h1-cards">Resumen licencias Angie</h1>
       <div class="div-p-cards">
-        <p>Vacaciones: ${vacacionesAngie}/14 </p>
-        <p>Días estudio: ${estudioAngie}/10</p>
-        <p>Horas extra: ${extraAngie}</p>
-        <p>Horas adeudadas: ${deudaAngie} </p>
+        <p>Vacaciones: ${licenciaAngie.vacaciones}/14 </p>
+        <p>Días estudio: ${licenciaAngie.estudio}/10</p>
+        <p>Horas extra: ${licenciaAngie.extra}</p>
+        <p>Horas adeudadas: ${licenciaAngie.deuda} </p>
       </div>
     </div>
 
     <div class="card-resumen card-cami">
       <h1 class="h1-cards">Resumen licencias Cami</h1>
       <div class="div-p-cards">
-      <p>Vacaciones: ${vacacionesCami}/14 </p>
-      <p>Días estudio: ${estudioCami}/10</p>
-      <p>Horas extra: ${extraCami}</p>
-      <p>Horas adeudadas: ${deudaCami} </p>
+      <p>Vacaciones: ${licenciaCami.vacaciones}/14 </p>
+      <p>Días estudio: ${licenciaCami.estudio}/10</p>
+      <p>Horas extra: ${licenciaCami.extra}</p>
+      <p>Horas adeudadas: ${licenciaCami.deuda} </p>
       </div>
     </div>
 
     <div class="card-resumen card-ro">
       <h1 class="h1-cards">Resumen licencias Ro</h1>
       <div class="div-p-cards">
-      <p>Vacaciones: ${vacacionesRo}/21 </p>
-      <p>Días estudio: ${estudioRo}/10</p>
-      <p>Horas extra: ${extraRo}</p>
-      <p>Horas adeudadas: ${deudaRo} </p>
+      <p>Vacaciones: ${licenciaRo.vacaciones}/21 </p>
+      <p>Días estudio: ${licenciaRo.estudio}/10</p>
+      <p>Horas extra: ${licenciaRo.extra}</p>
+      <p>Horas adeudadas: ${licenciaRo.deuda} </p>
       </div>
     </div>
 
     <div class="card-resumen card-quimey">
-      <h1 class="h1-cards">Resumen licencias Quimey</h1>
+      <h1 class="h1-cards">Resumen licencias Quimi</h1>
       <div class="div-p-cards">
-      <p>Vacaciones: ${vacacionesQuimey}/14 </p>
-      <p>Días estudio: ${estudioQuimey}/10</p>
-      <p>Horas extra: ${extraQuimey}</p>
-      <p>Horas adeudadas: ${deudaQuimey} </p>
+      <p>Vacaciones: ${licenciaQuimey.vacaciones}/14 </p>
+      <p>Días estudio: ${licenciaQuimey.estudio}/10</p>
+      <p>Horas extra: ${licenciaQuimey.extra}</p>
+      <p>Horas adeudadas: ${licenciaQuimey.deuda} </p>
       </div>
     </div>
   </div>
