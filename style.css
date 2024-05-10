@@ -343,7 +343,10 @@ svg{
 .div-botones-formulario{
   display: flex;
   justify-content: center;
-  margin-top: 30vh;
+  align-items: end;
+  height: 100%;
+  align-items: self-end;
+  margin-bottom: 10vh;
 }
 
 .botones-formulario{
@@ -361,6 +364,36 @@ svg{
   background-color: rgba(0, 188, 0, 0.539);
 }
 
+.div-contador-formulario{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+}
+
+.span-contador{
+  font-size: 2vw;
+}
+
+.btn-contador{
+  align-items: center;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 50%;
+  width: 3vw;
+  height: 3vw;
+  font-size: 2vw;
+}
+
+.btn-contador:hover{
+  background-color: rgba(255, 255, 255, 0.822);
+  text-shadow: 1px 1px 2px black;
+}
+
+.btn-contador:active{
+  background-color: pink;
+}
 
 
 
@@ -388,13 +421,28 @@ svg{
   margin-top: 4vh;
 }
 
-.div-botones-formulario{
-  margin-top: 45vh;
-}
+
 
 .botones-formulario{
   min-width: 25vw;
   font-size: 5vw;
+}
+
+.div-contador-formulario{
+  margin-top: 10vh;
+  gap: 5vw;
+}
+
+.span-contador{
+  font-size: 8vw;
+}
+
+.btn-contador{
+  display: flex;
+  justify-content: center;
+  width: 8vw;
+  height: 8vw;
+  font-size: 8vw;
 }
 
 }
@@ -407,10 +455,12 @@ svg{
 
 
 
+
+
 /* INICIA CARDS RESUMEN ↓ */
 .cards-resumen{
   position: absolute;
-  top: 5%;
+  top: 4.5%;
   left: 1%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);

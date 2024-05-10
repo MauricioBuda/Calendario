@@ -116,20 +116,28 @@ function asignarEventosSegunDondeHagaClick() {
         } 
 
         else if (event.target.id.startsWith("close-formulario") || event.target.id.startsWith("cancelar-formulario")) {
-            cerrarElFormulario();
+          cerrarElFormulario();
           } 
 
         else if (event.target.id.startsWith("add-formulario")) {
-            formularioNuevaTarea(diaSeleccionado);
+          formularioNuevaTarea(diaSeleccionado);
         } 
 
         else if (event.target.id.startsWith("aceptar-formulario")) {
-            cargarTarea();
+          cargarTarea();
         } 
 
         else if (event.target.id.startsWith("btn-close-resumen")) {
           closeResumen();
-      } 
+        } 
+
+        else if (event.target.id.startsWith("sumar-contador")) {
+          sumarHoras();
+        } 
+
+        else if (event.target.id.startsWith("restar-contador")) {
+          restarHoras();
+        } 
     })
 }  
 
@@ -301,7 +309,7 @@ function clickEnCasilla(dia){
 
 
 // Abrir formulario para nueva tarea ↓
-function formularioNuevaTarea(dia){
+async function formularioNuevaTarea(dia){
 
     let contenedorParaModal = document.getElementById("modal-formulario");
     let nuevaTarea = document.createElement("div");
@@ -331,14 +339,100 @@ function formularioNuevaTarea(dia){
         </select>
       </div>
 
+
+        <div id="contenedor-contador" class="div-contador-formulario aplicar-display-none">
+          <button id="restar-contador" disabled class="btn-contador"> - </button>
+          <span id="horas-contador" class="span-contador">  0 </span>
+          <button id="sumar-contador" class="btn-contador"> + </button>
+        </div>
+
+
+
       <div class="div-botones-formulario">
         <button id="aceptar-formulario" class="botones-formulario">ACEPTAR</button>
         <button id="cancelar-formulario" class="botones-formulario">CANCELAR</button>
       </div>
     </div>
+  </section>
     `;
+
     
-    contenedorParaModal.appendChild(nuevaTarea)
+    contenedorParaModal.appendChild(nuevaTarea);
+
+    
+    let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
+    selectorActividadFormulario.addEventListener("change", mostrarContador);
+}
+
+
+
+
+
+
+
+function mostrarContador () {
+
+  let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
+  let selectorActividadFormularioElegido = selectorActividadFormulario.value;
+
+  let contenedorContador = document.getElementById("contenedor-contador");
+
+  if (selectorActividadFormularioElegido === "HorasExtra" || selectorActividadFormularioElegido === "HorasDeuda") {
+      contenedorContador.classList.remove("aplicar-display-none");
+  } else {
+    contenedorContador.classList.add("aplicar-display-none");
+  }
+}
+
+
+
+
+
+
+
+// Ver si habilito o no el restar
+function restarTogle (horas) {
+  let btnRestar = document.getElementById("restar-contador");
+  if (parseFloat(horas) === 0) {
+    btnRestar.disabled = true;
+  } else {
+    btnRestar.disabled= false;
+  }
+
+}
+
+
+
+
+
+
+
+// Sumar horas en el contador, de a media hora
+function sumarHoras () {
+
+  let contadorHoras = document.getElementById("horas-contador");
+  
+  let horas = parseFloat(contadorHoras.textContent); // Convertir a número
+  contadorHoras.innerText = horas + 0.5 + "HS"; // Incrementar el contador
+
+  restarTogle(horas + 0.5);
+}
+
+
+
+
+
+
+
+// Restar horas en el contador, de a media hora
+function restarHoras () {
+
+  let contadorHoras = document.getElementById("horas-contador");
+  
+  let horas = parseFloat(contadorHoras.textContent); // Convertir a número
+  contadorHoras.innerText = horas - 0.5 + "HS"; // Incrementar el contador
+
+  restarTogle(horas - 0.5);
 }
 
 
@@ -441,9 +535,20 @@ function cargarTarea () {
     let recepcionistaElegida = recepcionistaFormulario.value;
     let selectorActividadFormularioElegido = selectorActividadFormulario.value;
 
+    console.log(selectorActividadFormularioElegido)
+    console.log(selectorActividadFormulario.value)
+
     if (recepcionistaElegida === "RECEPCIONISTA" || selectorActividadFormularioElegido === "TIPO DE LICENCIA") {
       console.log("NO")
     } else {
+      console.log(selectorActividadFormularioElegido)
+      switch (key) {
+        case value:
+          
+          break;
       
+        default:
+          break;
+      }
     }
 }
