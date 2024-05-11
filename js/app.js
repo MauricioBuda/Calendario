@@ -335,7 +335,7 @@ async function formularioNuevaTarea(dia){
           <option value="estudio" >DÍA DE ESTUDIO </option>
           <option value="vacaciones" >VACACIONES </option>
           <option value="extra" >HORAS EXTRA </option>
-          <option value="deuda" >HORAS ADUDADAS </option>
+          <option value="deuda" >HORAS ADEUDADAS </option>
           <option value="Enfermedad">ENFERMEDAD</option>
           <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
           <option value="Otras" >OTRAS LICENCIAS </option>
@@ -378,9 +378,11 @@ function mostrarContador () {
   let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
   let selectorActividadFormularioElegido = selectorActividadFormulario.value;
 
+  console.log(selectorActividadFormularioElegido)
+
   let contenedorContador = document.getElementById("contenedor-contador");
 
-  if (selectorActividadFormularioElegido === "HorasExtra" || selectorActividadFormularioElegido === "HorasDeuda") {
+  if (selectorActividadFormularioElegido === "extra" || selectorActividadFormularioElegido === "deuda") {
       contenedorContador.classList.remove("aplicar-display-none");
   } else {
     contenedorContador.classList.add("aplicar-display-none");
