@@ -2,6 +2,9 @@ import { traerLicenciasRestantes, cargarTareaFirestore } from "./firebaseConfig"
 //   Declaro variables y asigno eventos ↓
 
 
+import {  collection, getDocs } from 'firebase/firestore';
+import { db } from './firebaseConfig';
+
 // import {  collection, getDocs } from 'firebase/firestore';
 // import { db } from './firebaseConfig';
 
@@ -49,7 +52,7 @@ let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
 // Asigno evento a los selectores para que vayan filtrando
 selectores.forEach(selector => {
-    selector.addEventListener("change", obtenerLicenciasDesdeFirestore);
+    selector.addEventListener("change", ()=> { obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value)});
 });
 
 //  SVG
@@ -596,8 +599,6 @@ async function cargarTarea () {
     let recepcionistaFormulario = document.getElementById("recepcionistaFormulario");
     let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
 
-    console.log(licenciaSeleccionada, recepcionistaSeleccionada, selectorDeMes.value)
-
     let recepcionistaElegida = recepcionistaFormulario.value;
     let selectorActividadFormularioElegido = selectorActividadFormulario.value;
 
@@ -655,6 +656,7 @@ async function cargarTarea () {
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
     // Limpiar el array de cards antes de obtener las nuevas desde Firestore
     arrayLicencias = [];
+
   
     // Obtener todas las tareas desde Firestore
     const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
@@ -662,15 +664,14 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
     // Iterar sobre las tareas y agregarlas al array y al contenedor
     querySnapshot.forEach((doc) => {
       const tarjetaFirestore = doc.data();
-      console.log(selectorDeMes.value, licencia, recepcionista)
 
       console.log(tarjetaFirestore)
       console.log(tarjetaFirestore.mes)
       console.log(tarjetaFirestore.licencia)
       console.log(tarjetaFirestore.recepcionista)
+      console.log(mes, recepcionista, licencia)
   
       if (tarjetaFirestore.mes === selectorDeMes.value ) {
-        console.log("junio")
   
         if (tarjetaFirestore.recepcionista === recepcionista) {
           
