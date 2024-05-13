@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, doc, setDoc, getDocs, collection } from "firebase/firestore"; 
+import { getFirestore, addDoc, setDoc, getDocs, collection } from "firebase/firestore"; 
 
 
 
@@ -37,8 +37,31 @@ async function traerLicenciasRestantes() {
       throw error; // Lanza el error para que sea manejado por la llamada de la función
   }
 }
+
+
+
+
+
+// Cargar tarea en Firestore
+async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia){
+    console.log(licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia)
+    try {
+        let docRef = await addDoc(collection(db, "licenciasCalendario"), {
+        licencia: nuevaLicencia.licencia,
+        recepcionista: nuevaLicencia.recepcionista,
+        dia: nuevaLicencia.dia,
+        mes: nuevaLicencia.mes,
+        horasExtra: nuevaLicencia.horasExtra,
+        horasDeuda: nuevaLicencia.horasDeuda,
+        fechaCreacionConFormato: nuevaLicencia.fechaCreacionConFormato,
+        fechaCreacionSinFormato: nuevaLicencia.fechaCreacionSinFormato,
+        });
+        nuevaLicencia.asignarId(docRef.id);
+    } catch (error) {
+        console.error("Error al agregar la tarea a Firestore", error);
+        }
+}
   
 
-  export { traerLicenciasRestantes }
+  export { traerLicenciasRestantes, cargarTareaFirestore, db}
 
-  

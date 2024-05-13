@@ -1,14 +1,29 @@
-import { traerLicenciasRestantes } from "./firebaseConfig";
+import { traerLicenciasRestantes, cargarTareaFirestore } from "./firebaseConfig";
 //   Declaro variables y asigno eventos ↓
 
 
+// import {  collection, getDocs } from 'firebase/firestore';
+// import { db } from './firebaseConfig';
+
 // Calendario
 let selectores = document.querySelectorAll('.selectores');
-let mesSeleccionado = document.getElementById("selectorMes");
+let selectorDeMes = document.getElementById("selectorMes");
+selectorDeMes.addEventListener("change", elegirMes);
+
 let olCalendario = document.getElementById("ol-calendario");
-mesSeleccionado.addEventListener("change", elegirMes);
+let selectorRecepcionista = document.getElementById("selectorRecepcionista");
+let selectorLicencia = document.getElementById("selectorActividad");
 let diaSeleccionado = 0;
 let mesPreExistenteEnLocalStorage = localStorage.getItem("mesElegido");
+
+
+// Asigno eventos a selectores
+selectorRecepcionista.addEventListener("change", ()=> { recepcionistaSeleccionada = selectorRecepcionista.value })
+selectorLicencia.addEventListener("change", ()=> { licenciaSeleccionada =  selectorLicencia.value })
+
+// Variables de lo que selecciona el usuario
+let recepcionistaSeleccionada = selectorRecepcionista.value;
+let licenciaSeleccionada =  selectorLicencia.value;
 
 // Tareas
 let modalTareas = document.getElementById("contenedor-tareas");
@@ -17,6 +32,9 @@ let modalConTareas
 // Formulario
 let contenedorFormulario = document.getElementById("contenedor-formulario");
 let modalConFormulario
+let arrayLicencias = [];
+let nuevaLicencia 
+
 
 // Resumen
 let btnResumen = document.getElementById("resumen");
@@ -29,11 +47,39 @@ let licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 let licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
+// Asigno evento a los selectores para que vayan filtrando
+selectores.forEach(selector => {
+    selector.addEventListener("change", obtenerLicenciasDesdeFirestore);
+});
+
 //  SVG
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg>`
+
+
+
+
+
+// Clase para ir cargando las licencias:
+class Licencia {
+    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato) {
+      this.licencia = licencia;
+      this.recepcionista = recepcionista;
+      this.dia = dia;
+      this.mes = mes;
+      this.horasExtra = horasExtra;
+      this.horasDeuda = horasDeuda;
+      this.fechaCreacionConFormato = fechaCreacionConFormato;
+      this.fechaCreacionSinFormato = fechaCreacionSinFormato;
+      this.id = null;
+    }
+    asignarId(id) {
+      this.id = id;
+    }
+  }
+  
 
 
 
@@ -45,7 +91,7 @@ function mostrarCarga() {
     modalCarga.style.display = 'flex';
   }
   // Ocultar el modal de carga
-  function ocultarCarga() {
+function ocultarCarga() {
     modalCarga.style.display = 'none';
   }
 
@@ -160,11 +206,14 @@ asignarEventosSegunDondeHagaClick();
 
 
 
+
+
 // Cargo el último mes que vieron, si es que existe ↓
 if (mesPreExistenteEnLocalStorage){
-    mesSeleccionado.value = mesPreExistenteEnLocalStorage;
+    selectorDeMes.value = mesPreExistenteEnLocalStorage;
     elegirMes();
 } 
+
 
 
 
@@ -185,7 +234,7 @@ function elegirMes() {
     // Obtener el número de días para el mes seleccionado
     let diasEnMes = 0;
 
-    switch (mesSeleccionado.value) {
+    switch (selectorDeMes.value) {
         case "Enero":
             diasEnMes = 31;
             primerDia.classList.add("empiezaLunes");
@@ -238,7 +287,7 @@ function elegirMes() {
             diasEnMes = 0; // Manejar el caso de un mes inválido
     }
 
-    localStorage.setItem("mesElegido", mesSeleccionado.value);
+    localStorage.setItem("mesElegido", selectorDeMes.value);
 
 
     // Obtener la lista de días del calendario
@@ -247,7 +296,7 @@ function elegirMes() {
     // Iterar sobre los elementos de la lista y mostrar/ocultar según la cantidad de días en el mes
     listaDias.forEach((dia, indice) => {
         if (indice + 1 <= diasEnMes) {
-            dia.id = `day-${dia.textContent}-${mesSeleccionado.value}`;
+            dia.id = `day-${dia.textContent}-${selectorDeMes.value}`;
             // Mostrar días válidos
             dia.style.display = 'list-item';
         } else {
@@ -268,6 +317,7 @@ function ponerSacarBorroso () {
     // Acomodo las clases para que el fondo quede borroso
     olCalendario.classList.toggle("poner-borroso");
     btnResumen.classList.toggle("poner-borroso");
+    btnResumen.disabled =  !btnResumen.disabled;
     selectores.forEach(selector => {
         selector.classList.toggle('poner-borroso');
         selector.disabled = !selector.disabled;
@@ -299,11 +349,12 @@ function clickEnCasilla(dia){
     <div id="div-contenedor-tareas" class="formulario">
     <button id="add-formulario" class="formulario-add">${btnAddSVG}</i></button>
     <button id="close-formulario" class="formulario-close">X</button>
-      <h1 class="h1-formulario"> ${dia} de ${mesSeleccionado.value}</h1>
+      <h1 class="h1-formulario"> ${dia} de ${selectorDeMes.value}</h1>
     </div>
     `;
     
     modalTareas.appendChild(modalConTareas)
+
 }
 
 
@@ -319,9 +370,9 @@ async function formularioNuevaTarea(dia){
     modalConFormulario.innerHTML = `
     <div class="formulario-nueva-tarea">
       <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
-      <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${mesSeleccionado.value}</h1>
+      <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${selectorDeMes.value}</h1>
       <div class="div-selectores-formulario">
-        <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionista" >
+        <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionistaFormulario" >
           <option disabled selected> RECEPCIONISTA </option>
           <option value="Angie"> ANGIE</option>
           <option value="Cami">CAMI</option>
@@ -329,7 +380,7 @@ async function formularioNuevaTarea(dia){
           <option value="Ro">RO</option>
         </select>
   
-        <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividad" >
+        <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividadFormulario" >
           <option disabled selected> TIPO DE LICENCIA</option>
           <option value="HomeOffice" >HOME OFFICE</option>
           <option value="estudio" >DÍA DE ESTUDIO </option>
@@ -377,8 +428,6 @@ function mostrarContador () {
 
   let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
   let selectorActividadFormularioElegido = selectorActividadFormulario.value;
-
-  console.log(selectorActividadFormularioElegido)
 
   let contenedorContador = document.getElementById("contenedor-contador");
 
@@ -466,6 +515,8 @@ function cerrarModalDeTareas (){
 
 
 
+
+
 async function desplegarResumen () {
     contenedorResumen.classList.remove("aplicar-display-none");
 
@@ -518,7 +569,6 @@ async function desplegarResumen () {
     </div>
   </div>
     `
-    btnResumen.disabled = true;
     contenedorResumen.appendChild(cardsResumen)
 }
 
@@ -529,7 +579,6 @@ async function desplegarResumen () {
 
 // Cerrar resumen ↓
 function closeResumen () {
-  btnResumen.disabled = false;
 
   contenedorResumen.classList.add("aplicar-display-none");
 
@@ -543,26 +592,105 @@ function closeResumen () {
 
 
 // Cargar tarea en db ↓
-function cargarTarea () {
+async function cargarTarea () {
     let recepcionistaFormulario = document.getElementById("recepcionistaFormulario");
     let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
+
+    console.log(licenciaSeleccionada, recepcionistaSeleccionada, selectorDeMes.value)
 
     let recepcionistaElegida = recepcionistaFormulario.value;
     let selectorActividadFormularioElegido = selectorActividadFormulario.value;
 
-    console.log(selectorActividadFormularioElegido)
-    console.log(recepcionistaElegida)
-
     if (recepcionistaElegida === "RECEPCIONISTA" || selectorActividadFormularioElegido === "TIPO DE LICENCIA") {
       console.log("COMPLETAR TODO")
     } else {
-      switch (act) {
-        case value:
-          
-          break;
-      
-        default:
-          break;
-      }
+        let licencia = selectorActividadFormularioElegido;
+        let recepcionista = recepcionistaElegida;
+        let dia = diaSeleccionado;
+        let mes = selectorDeMes.value;
+        let horasExtra = 0;
+        let horasDeuda = 0;
+        let formatoFecha = { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false };
+        let fechaCreacionConFormato = new Date();
+        let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
+
+        if(selectorActividadFormularioElegido === "deuda") {
+            let contadorHoras = document.getElementById("horas-contador");
+            horasDeuda = contadorHoras.textContent;
+        }
+
+        if (selectorActividadFormularioElegido === "extra") {
+            let contadorHoras = document.getElementById("horas-contador");
+            horasExtra = contadorHoras.textContent;
+        }
+
+
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato);
+
+        arrayLicencias.push(nuevaLicencia);
+
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia);
+
     }
 }
+
+
+
+
+
+    // if (selectorDeMes.value === "Mayo") {
+    //     console.log("si")
+    //     let casilla = document.getElementById("day-12-Mayo");
+    //     let tareaAInsertar = document.createElement("div");
+    //     tareaAInsertar.innerHTML = `
+    //     <p>HOLA>/p>
+    //     `
+    //     casilla.appendChild(tareaAInsertar)
+    // }
+
+
+
+
+    // Función para obtener las cards desde Firestore
+async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
+    // Limpiar el array de cards antes de obtener las nuevas desde Firestore
+    arrayLicencias = [];
+  
+    // Obtener todas las tareas desde Firestore
+    const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+  
+    // Iterar sobre las tareas y agregarlas al array y al contenedor
+    querySnapshot.forEach((doc) => {
+      const tarjetaFirestore = doc.data();
+      console.log(selectorDeMes.value, licencia, recepcionista)
+
+      console.log(tarjetaFirestore)
+      console.log(tarjetaFirestore.mes)
+      console.log(tarjetaFirestore.licencia)
+      console.log(tarjetaFirestore.recepcionista)
+  
+      if (tarjetaFirestore.mes === selectorDeMes.value ) {
+        console.log("junio")
+  
+        if (tarjetaFirestore.recepcionista === recepcionista) {
+          
+            if (tarjetaFirestore.licencia === licencia) {
+                // tarjetaFirestore.id = doc.id;
+                // unaCard.push(tarjetaFirestore);
+            }
+
+          
+        } else if (mes){
+  
+        //   tarjetaFirestore.id = doc.id;
+        //   arrayLicencias.push(tarjetaFirestore);
+        }
+      }
+    });
+  
+    // Iterar sobre las tarjetas ordenadas y agregarlas al contenedor
+    // arrayLicencias.forEach(tarjeta => {
+    //   agregarCardAlContenedor(tarjeta);
+    // });
+  }
+
