@@ -339,7 +339,7 @@ function ponerSacarBorroso () {
 
 
 // Renderizar modal con tareas ↓
-function clickEnCasilla(dia){
+async function clickEnCasilla(dia){
     // Elimino el display none que venía arrastrando
     modalTareas.classList.remove("aplicar-display-none");
     diaSeleccionado = dia;
@@ -349,13 +349,31 @@ function clickEnCasilla(dia){
     modalConTareas = document.createElement("div");
     modalConTareas.innerHTML = `
     <div id="div-contenedor-tareas" class="formulario">
-    <button id="add-formulario" class="formulario-add">${btnAddSVG}</i></button>
-    <button id="close-formulario" class="formulario-close">X</button>
-      <h1 class="h1-formulario"> ${dia} de ${selectorDeMes.value}</h1>
-    </div>
+      <button id="add-formulario" class="formulario-add">${btnAddSVG}</i></button>
+      <button id="close-formulario" class="formulario-close">X</button>
+        <h1 class="h1-formulario"> ${dia} de ${selectorDeMes.value}</h1>
+        <div id="contenedor-cards">
+
+        </div>
+      </div>
     `;
-    
     modalTareas.appendChild(modalConTareas)
+
+    let tareasDelDia = await obtenerLicenciasDesdeFirestoreModal(dia, selectorDeMes.value);
+    let contenedorParaCards = document.getElementById("contenedor-cards")
+
+    tareasDelDia.forEach(element => {
+        console.log(element.licencia)
+        let tareaAInsertarCard = document.createElement("p");
+        tareaAInsertarCard.innerHTML = `
+        <h3> ${element.recepcionista}</h1>
+        <h3> ${element.licencia}</h1>
+        `
+    contenedorParaCards.appendChild(tareaAInsertarCard)
+
+    });
+
+
 
 }
 
@@ -651,7 +669,7 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
     // Limpiar el array de cards antes de obtener las nuevas desde Firestore
     arrayLicencias = [];
 
-    let casillasEliminar = document.querySelectorAll(".tarea-anterior");
+    let casillasEliminar = document.querySelectorAll(".tarea-renderizada");
 
     casillasEliminar.forEach(element => {
         element.remove();
@@ -665,7 +683,7 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
       const tarjetaFirestore = doc.data();
   
       if (tarjetaFirestore.mes === mes ) {
-  
+
         if (recepcionista === "Todas" && licencia === "Todas") {
             arrayLicencias.push(tarjetaFirestore);
         }
@@ -692,17 +710,96 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
   }
 
 
+
+
+
+
+
+      // Función para obtener las cards desde Firestore
+async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
+    mostrarCarga();
+    // Limpiar el array de cards antes de obtener las nuevas desde Firestore
+    arrayLicencias = [];
+  
+    // Obtener todas las tareas desde Firestore
+    const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+  
+    // Iterar sobre las tareas y agregarlas al array y al contenedor
+    querySnapshot.forEach((doc) => {
+      const tarjetaFirestore = doc.data();
+  
+      if (tarjetaFirestore.mes === mes ) {
+
+        if (tarjetaFirestore.dia === dia) {
+            arrayLicencias.push(tarjetaFirestore);
+        }
+        
+
+      }
+    });
+    ocultarCarga();
+  
+   return arrayLicencias;
+  }
+
+
+
+
+
+
+
+
+
+
   
 
 
 function renderizarTareasEnCalendario (tarea){
 
     let casilla = document.getElementById(`day-${tarea.dia}-${tarea.mes}`);
-
+    let claseSegunLicencia
     tareaAInsertar = document.createElement("div");
+    tareaAInsertar.classList.add("div-tareas-renderizadas")
+
+    switch (tarea.licencia) {
+            case "HomeOffice":
+                claseSegunLicencia = "home";
+
+            break;
+            case "Estudio":
+                claseSegunLicencia = "estudio";
+            
+            break;
+            case "Vacaciones":
+                claseSegunLicencia = "vacaciones";
+            
+            break;
+            case "HorasExtra":
+                claseSegunLicencia = "extra";
+            
+            break;
+            case "HorasDeuda":
+                claseSegunLicencia = "deuda";
+            
+            break;
+            case "Enfermedad":
+                claseSegunLicencia = "enfermedad";
+            
+            break;
+            case "FaltaProgramada":
+                claseSegunLicencia = "programada";
+            
+            break;
+            case "Otras":
+                claseSegunLicencia = "otras";
+            
+            break;
+        default:
+            break;
+    }
 
     tareaAInsertar.innerHTML = `
-        <p class="tarea-anterior"> ${tarea.recepcionista} ${tarea.horasDeuda!=0?tarea.horasDeuda:tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia}</p>
+        <p class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia}</p>
     `
 
     casilla.appendChild(tareaAInsertar);

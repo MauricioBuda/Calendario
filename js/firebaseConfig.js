@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, addDoc, setDoc, getDocs, collection } from "firebase/firestore"; 
+import { getFirestore, addDoc, doc, getDocs, collection } from "firebase/firestore"; 
 
 
 
@@ -63,5 +63,11 @@ async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExt
 }
   
 
-  export { traerLicenciasRestantes, cargarTareaFirestore, db}
+
+
+
+
+
+
+  export { traerLicenciasRestantes, cargarTareaFirestore, db }
 

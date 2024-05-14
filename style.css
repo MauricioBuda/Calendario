@@ -104,6 +104,7 @@ ol{
 
 .days:hover{
   background-color: #ff3a3a3b;
+  cursor: pointer;
 }
 
 .rojo{
@@ -580,3 +581,28 @@ svg{
 }
 /* FIN MODAL CARGANDO ↑ */
 
+
+
+
+
+
+
+
+/* INICIA TAREA RENDERIZADA ↓ */
+.div-tareas-renderizadas{
+width: max-content;
+}
+
+.tarea-renderizada{
+  margin-bottom: 3px;
+  border: none;
+  border-radius: 15px;
+  width: max-content;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+.tarea-renderizada:hover{
+  cursor: not-allowed;
+}
+/* FIN TAREA RENDERIZADA ↑ */
