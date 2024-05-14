@@ -390,7 +390,8 @@ async function formularioNuevaTarea(dia){
     modalConFormulario.innerHTML = `
     <div class="formulario-nueva-tarea">
       <button id="close-formulario-nueva-tarea" class="formulario-close-nueva-tarea">X</button>
-      <h1 class="h1-formulario-nueva-tarea"> Nueva tarea para ${dia} de ${selectorDeMes.value}</h1>
+      <h1  class="h1-formulario-nueva-tarea"> Nueva tarea para:
+       ${dia} de ${selectorDeMes.value}</h1>
       <div class="div-selectores-formulario">
         <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionistaFormulario" >
           <option disabled selected> RECEPCIONISTA </option>
