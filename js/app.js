@@ -5,8 +5,6 @@ import { traerLicenciasRestantes, cargarTareaFirestore } from "./firebaseConfig"
 import {  collection, getDocs } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 
-// import {  collection, getDocs } from 'firebase/firestore';
-// import { db } from './firebaseConfig';
 
 // Calendario
 let selectores = document.querySelectorAll('.selectores');
@@ -31,6 +29,7 @@ let licenciaSeleccionada =  selectorLicencia.value;
 // Tareas
 let modalTareas = document.getElementById("contenedor-tareas");
 let modalConTareas
+let tareaAInsertar
 
 // Formulario
 let contenedorFormulario = document.getElementById("contenedor-formulario");
@@ -211,6 +210,7 @@ asignarEventosSegunDondeHagaClick();
 
 
 
+
 // Cargo el último mes que vieron, si es que existe ↓
 if (mesPreExistenteEnLocalStorage){
     selectorDeMes.value = mesPreExistenteEnLocalStorage;
@@ -218,7 +218,7 @@ if (mesPreExistenteEnLocalStorage){
 } 
 
 
-
+obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
 
 // Función para renderizar mes elegido en pantalla ↓
 function elegirMes() {
@@ -295,11 +295,10 @@ function elegirMes() {
 
     // Obtener la lista de días del calendario
     const listaDias = document.querySelectorAll('.days');
-
     // Iterar sobre los elementos de la lista y mostrar/ocultar según la cantidad de días en el mes
     listaDias.forEach((dia, indice) => {
         if (indice + 1 <= diasEnMes) {
-            dia.id = `day-${dia.textContent}-${selectorDeMes.value}`;
+            dia.id = `day-${dia.firstChild.textContent}-${selectorDeMes.value}`;
             // Mostrar días válidos
             dia.style.display = 'list-item';
         } else {
@@ -377,19 +376,19 @@ async function formularioNuevaTarea(dia){
       <div class="div-selectores-formulario">
         <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionistaFormulario" >
           <option disabled selected> RECEPCIONISTA </option>
-          <option value="Angie"> ANGIE</option>
-          <option value="Cami">CAMI</option>
-          <option value="Quimey">QUIMI</option>
-          <option value="Ro">RO</option>
+          <option value="Angie"> ANGIE </option>
+          <option value="Cami"> CAMI </option>
+          <option value="Ro"> RO </option>
+          <option value="Quimi"> QUIMI </option>
         </select>
   
         <select class="selectores-formulario" id="selectorActividadFormulario" name="selectorActividadFormulario" >
           <option disabled selected> TIPO DE LICENCIA</option>
           <option value="HomeOffice" >HOME OFFICE</option>
-          <option value="estudio" >DÍA DE ESTUDIO </option>
-          <option value="vacaciones" >VACACIONES </option>
-          <option value="extra" >HORAS EXTRA </option>
-          <option value="deuda" >HORAS ADEUDADAS </option>
+          <option value="Estudio" >DÍA DE ESTUDIO </option>
+          <option value="Vacaciones" >VACACIONES </option>
+          <option value="HorasExtra" >HORAS EXTRA </option>
+          <option value="HorasDeuda" >HORAS ADEUDADAS </option>
           <option value="Enfermedad">ENFERMEDAD</option>
           <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
           <option value="Otras" >OTRAS LICENCIAS </option>
@@ -434,7 +433,7 @@ function mostrarContador () {
 
   let contenedorContador = document.getElementById("contenedor-contador");
 
-  if (selectorActividadFormularioElegido === "extra" || selectorActividadFormularioElegido === "deuda") {
+  if (selectorActividadFormularioElegido === "HorasExtra" || selectorActividadFormularioElegido === "HorasDeuda") {
       contenedorContador.classList.remove("aplicar-display-none");
   } else {
     contenedorContador.classList.add("aplicar-display-none");
@@ -596,6 +595,7 @@ function closeResumen () {
 
 // Cargar tarea en db ↓
 async function cargarTarea () {
+    mostrarCarga();
     let recepcionistaFormulario = document.getElementById("recepcionistaFormulario");
     let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
 
@@ -615,23 +615,25 @@ async function cargarTarea () {
         let fechaCreacionConFormato = new Date();
         let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
 
-        if(selectorActividadFormularioElegido === "deuda") {
+        if(selectorActividadFormularioElegido === "HorasDeuda") {
             let contadorHoras = document.getElementById("horas-contador");
             horasDeuda = contadorHoras.textContent;
         }
 
-        if (selectorActividadFormularioElegido === "extra") {
+        if (selectorActividadFormularioElegido === "HorasExtra") {
             let contadorHoras = document.getElementById("horas-contador");
             horasExtra = contadorHoras.textContent;
         }
 
+        let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
 
-        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato);
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato);
 
         arrayLicencias.push(nuevaLicencia);
 
-        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia);
-
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia);
+        
+        location.reload();
     }
 }
 
@@ -639,24 +641,21 @@ async function cargarTarea () {
 
 
 
-    // if (selectorDeMes.value === "Mayo") {
-    //     console.log("si")
-    //     let casilla = document.getElementById("day-12-Mayo");
-    //     let tareaAInsertar = document.createElement("div");
-    //     tareaAInsertar.innerHTML = `
-    //     <p>HOLA>/p>
-    //     `
-    //     casilla.appendChild(tareaAInsertar)
-    // }
 
 
 
 
     // Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
+    mostrarCarga();
     // Limpiar el array de cards antes de obtener las nuevas desde Firestore
     arrayLicencias = [];
 
+    let casillasEliminar = document.querySelectorAll(".tarea-anterior");
+
+    casillasEliminar.forEach(element => {
+        element.remove();
+        });
   
     // Obtener todas las tareas desde Firestore
     const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
@@ -664,34 +663,50 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
     // Iterar sobre las tareas y agregarlas al array y al contenedor
     querySnapshot.forEach((doc) => {
       const tarjetaFirestore = doc.data();
-
-      console.log(tarjetaFirestore)
-      console.log(tarjetaFirestore.mes)
-      console.log(tarjetaFirestore.licencia)
-      console.log(tarjetaFirestore.recepcionista)
-      console.log(mes, recepcionista, licencia)
   
-      if (tarjetaFirestore.mes === selectorDeMes.value ) {
+      if (tarjetaFirestore.mes === mes ) {
   
-        if (tarjetaFirestore.recepcionista === recepcionista) {
-          
-            if (tarjetaFirestore.licencia === licencia) {
-                // tarjetaFirestore.id = doc.id;
-                // unaCard.push(tarjetaFirestore);
-            }
-
-          
-        } else if (mes){
-  
-        //   tarjetaFirestore.id = doc.id;
-        //   arrayLicencias.push(tarjetaFirestore);
+        if (recepcionista === "Todas" && licencia === "Todas") {
+            arrayLicencias.push(tarjetaFirestore);
         }
+
+        if (recepcionista === "Todas" && tarjetaFirestore.licencia === licencia ) {
+            arrayLicencias.push(tarjetaFirestore);
+        }
+        if (tarjetaFirestore.recepcionista === recepcionista && licencia === "Todas" ) {
+            arrayLicencias.push(tarjetaFirestore);
+        }
+        if (tarjetaFirestore.recepcionista === recepcionista && tarjetaFirestore.licencia === licencia ) {
+            arrayLicencias.push(tarjetaFirestore);
+        }
+        
+
       }
     });
   
-    // Iterar sobre las tarjetas ordenadas y agregarlas al contenedor
-    // arrayLicencias.forEach(tarjeta => {
-    //   agregarCardAlContenedor(tarjeta);
-    // });
+    // Iterar sobre las tarjetas y agregarlas al contenedor
+    arrayLicencias.forEach(tarjeta => {
+      renderizarTareasEnCalendario(tarjeta);
+    });
+    ocultarCarga();
   }
+
+
+  
+
+
+function renderizarTareasEnCalendario (tarea){
+
+    let casilla = document.getElementById(`day-${tarea.dia}-${tarea.mes}`);
+
+    tareaAInsertar = document.createElement("div");
+
+    tareaAInsertar.innerHTML = `
+        <p class="tarea-anterior"> ${tarea.recepcionista} ${tarea.horasDeuda!=0?tarea.horasDeuda:tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia}</p>
+    `
+
+    casilla.appendChild(tareaAInsertar);
+}
+
+
 
