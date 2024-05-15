@@ -55,9 +55,13 @@ selectores.forEach(selector => {
 });
 
 //  SVG
-let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+</svg>`
+
+let btnTrashSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="trash-card" id="trash-card" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
 </svg>`
 
 
@@ -66,7 +70,7 @@ let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="add-formulario-svg"
 
 // Clase para ir cargando las licencias:
 class Licencia {
-    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato) {
+    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, id) {
       this.licencia = licencia;
       this.recepcionista = recepcionista;
       this.dia = dia;
@@ -75,9 +79,6 @@ class Licencia {
       this.horasDeuda = horasDeuda;
       this.fechaCreacionConFormato = fechaCreacionConFormato;
       this.fechaCreacionSinFormato = fechaCreacionSinFormato;
-      this.id = null;
-    }
-    asignarId(id) {
       this.id = id;
     }
   }
@@ -363,11 +364,12 @@ async function clickEnCasilla(dia){
     let contenedorParaCards = document.getElementById("contenedor-cards")
 
     tareasDelDia.forEach(element => {
-        console.log(element.licencia)
-        let tareaAInsertarCard = document.createElement("p");
+        let tareaAInsertarCard = document.createElement("div");
+        tareaAInsertarCard.classList.add ("div-tareas-modal");
         tareaAInsertarCard.innerHTML = `
-        <h3> ${element.recepcionista}</h1>
-        <h3> ${element.licencia}</h1>
+            <span> ${element.recepcionista}</span>
+            <span> ${element.horasDeuda!=0?element.horasDeuda + "HS":element.horasExtra!=0?element.horasExtra:element.licencia}</span>
+            <span class="trash-card"> ${btnTrashSVG} </span>
         `
     contenedorParaCards.appendChild(tareaAInsertarCard)
 
@@ -633,6 +635,8 @@ async function cargarTarea () {
         let formatoFecha = { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false };
         let fechaCreacionConFormato = new Date();
         let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
+        let id = dia + mes + licencia + recepcionista;
+        console.log(id)
 
         if(selectorActividadFormularioElegido === "HorasDeuda") {
             let contadorHoras = document.getElementById("horas-contador");
@@ -646,13 +650,14 @@ async function cargarTarea () {
 
         let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
 
-        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato);
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, id);
 
         arrayLicencias.push(nuevaLicencia);
 
-        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia);
-        
-        location.reload();
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id);
+
+        // location.reload();
+        ocultarCarga();
     }
 }
 
@@ -686,16 +691,20 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
       if (tarjetaFirestore.mes === mes ) {
 
         if (recepcionista === "Todas" && licencia === "Todas") {
+            tarjetaFirestore.id = doc.id;
             arrayLicencias.push(tarjetaFirestore);
         }
 
         if (recepcionista === "Todas" && tarjetaFirestore.licencia === licencia ) {
+            tarjetaFirestore.id = doc.id;
             arrayLicencias.push(tarjetaFirestore);
         }
         if (tarjetaFirestore.recepcionista === recepcionista && licencia === "Todas" ) {
+            tarjetaFirestore.id = doc.id;
             arrayLicencias.push(tarjetaFirestore);
         }
         if (tarjetaFirestore.recepcionista === recepcionista && tarjetaFirestore.licencia === licencia ) {
+            tarjetaFirestore.id = doc.id;
             arrayLicencias.push(tarjetaFirestore);
         }
         
@@ -800,7 +809,7 @@ function renderizarTareasEnCalendario (tarea){
     }
 
     tareaAInsertar.innerHTML = `
-        <p class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia}</p>
+        <p class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
     `
 
     casilla.appendChild(tareaAInsertar);

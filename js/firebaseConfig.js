@@ -43,9 +43,9 @@ async function traerLicenciasRestantes() {
 
 
 // Cargar tarea en Firestore
-async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia){
-    console.log(licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia)
-    try {
+async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id){
+
+  try {
         let docRef = await addDoc(collection(db, "licenciasCalendario"), {
         licencia: nuevaLicencia.licencia,
         recepcionista: nuevaLicencia.recepcionista,
@@ -55,8 +55,8 @@ async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExt
         horasDeuda: nuevaLicencia.horasDeuda,
         fechaCreacionConFormato: nuevaLicencia.fechaCreacionConFormato,
         fechaCreacionSinFormato: nuevaLicencia.fechaCreacionSinFormato,
+        id: nuevaLicencia.id
         });
-        nuevaLicencia.asignarId(docRef.id);
     } catch (error) {
         console.error("Error al agregar la tarea a Firestore", error);
         }
