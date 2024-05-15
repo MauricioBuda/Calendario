@@ -172,11 +172,10 @@ function asignarEventosSegunDondeHagaClick() {
   
         // Verificar si el clic ocurrió en un botón de editar
         if (event.target.id.startsWith("day-")) {
-          // Extraer el ID de la tarea de la identificación del botón
           clickEnCasilla(event.target.id.split("-")[1]);
         } 
 
-        else if (event.target.id.startsWith("close-formulario") || event.target.id.startsWith("cancelar-formulario")) {
+        else if (event.target.id.startsWith("close-formulario") || event.target.id.startsWith("clasePara")) {
           cerrarModalDeTareas();
           } 
 
@@ -211,6 +210,11 @@ function asignarEventosSegunDondeHagaClick() {
         else if (event.target.id.startsWith("btnTrashPath-")) {
           eliminarTareaDeFirestore(event.target.id.split("-")[1]);
         } 
+
+        // else if (event.target.classList.contains("claseParaExtraerDia-")) {
+        //   console.log(event.target.id.split("-")[1])
+        //   clickEnCasilla(event.target.id.split("-")[1]);
+        // } 
     })
 }  
 
@@ -864,7 +868,7 @@ function renderizarTareasEnCalendario (tarea){
     }
 
     tareaAInsertar.innerHTML = `
-        <p id="${tarea.id}" class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
+        <p id="${tarea.id}" class="claseParaExtraerDia-${tarea.dia} tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
     `
 
     casilla.appendChild(tareaAInsertar);
@@ -897,4 +901,14 @@ async function eliminarTareaDeFirestore (idEliminar) {
       sweetAlertOK("Ocurrió un error, actualizar página", "error");
     }
     
+}
+
+
+
+
+
+
+
+function modificarResumen() {
+  console.log("resumen")
 }
