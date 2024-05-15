@@ -1,9 +1,16 @@
 import { traerLicenciasRestantes, cargarTareaFirestore } from "./firebaseConfig";
+
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from './firebaseConfig'; // Asumiendo que ya tienes configurada tu conexión a Firestore
+
+import { sweetAlertOK, sweetAlertConfirm } from "./sweetAlert";
+
 //   Declaro variables y asigno eventos ↓
 
 
+
+
 import {  collection, getDocs } from 'firebase/firestore';
-import { db } from './firebaseConfig';
 
 
 // Calendario
@@ -60,9 +67,9 @@ let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-s
 <path id="add-formulario-path" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 </svg>`
 
-let btnTrashSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="trash-card" id="trash-card" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-</svg>`
+// let btnTrashSVG = `<svg xmlns="http://www.w3.org/2000/svg" id="btnTrash" class="trash-card" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+// <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+// </svg>`
 
 
 
@@ -191,6 +198,18 @@ function asignarEventosSegunDondeHagaClick() {
 
         else if (event.target.id.startsWith("restar-contador")) {
           restarHoras();
+        } 
+
+        else if (event.target.id.startsWith("eliminarTarea-")) {
+          eliminarTareaDeFirestore(event.target.id.split("-")[1]);
+        } 
+
+        else if (event.target.id.startsWith("btnTrash-")) {
+          eliminarTareaDeFirestore(event.target.id.split("-")[1]);
+        } 
+        
+        else if (event.target.id.startsWith("btnTrashPath-")) {
+          eliminarTareaDeFirestore(event.target.id.split("-")[1]);
         } 
     })
 }  
@@ -321,8 +340,16 @@ function ponerSacarBorroso () {
     olCalendario.classList.toggle("poner-borroso");
     btnResumen.classList.toggle("poner-borroso");
     btnResumen.disabled =  !btnResumen.disabled;
+
+    let casillasDias = document.querySelectorAll('.days');
+
+    casillasDias.forEach(dia => {
+      dia.classList.toggle("days-disabled")
+    });
+
     selectores.forEach(selector => {
         selector.classList.toggle('poner-borroso');
+        // Los dehabilito ↓
         selector.disabled = !selector.disabled;
     });
 }
@@ -364,19 +391,22 @@ async function clickEnCasilla(dia){
     let contenedorParaCards = document.getElementById("contenedor-cards")
 
     tareasDelDia.forEach(element => {
+
         let tareaAInsertarCard = document.createElement("div");
         tareaAInsertarCard.classList.add ("div-tareas-modal");
+
         tareaAInsertarCard.innerHTML = `
             <span> ${element.recepcionista}</span>
             <span> ${element.horasDeuda!=0?element.horasDeuda + "HS":element.horasExtra!=0?element.horasExtra:element.licencia}</span>
-            <span class="trash-card"> ${btnTrashSVG} </span>
+            <button id="eliminarTarea-${element.id}" class="trash-card">
+                <svg xmlns="http://www.w3.org/2000/svg" id="btnTrash-${element.id}" class="trash-card" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                <path id="btnTrashPath-${element.id}" d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
+                </svg>
+            </button>
         `
-    contenedorParaCards.appendChild(tareaAInsertarCard)
 
+        contenedorParaCards.appendChild(tareaAInsertarCard)
     });
-
-
-
 }
 
 
@@ -616,6 +646,8 @@ function closeResumen () {
 
 // Cargar tarea en db ↓
 async function cargarTarea () {
+  try {
+
     mostrarCarga();
     let recepcionistaFormulario = document.getElementById("recepcionistaFormulario");
     let selectorActividadFormulario = document.getElementById("selectorActividadFormulario");
@@ -635,8 +667,8 @@ async function cargarTarea () {
         let formatoFecha = { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false };
         let fechaCreacionConFormato = new Date();
         let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
-        let id = dia + mes + licencia + recepcionista;
-        console.log(id)
+        let id = '';
+        
 
         if(selectorActividadFormularioElegido === "HorasDeuda") {
             let contadorHoras = document.getElementById("horas-contador");
@@ -656,9 +688,15 @@ async function cargarTarea () {
 
         await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id);
 
-        // location.reload();
+        sweetAlertOK("Licencia cargada!", "success")
+        cerrarModalDeTareas();
+        obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
         ocultarCarga();
+        
     }
+  } catch (error) {
+    console.error("Error al obtener documentos: ", error);
+  }
 }
 
 
@@ -671,6 +709,8 @@ async function cargarTarea () {
 
     // Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
+  try {
+
     mostrarCarga();
     // Limpiar el array de cards antes de obtener las nuevas desde Firestore
     arrayLicencias = [];
@@ -717,7 +757,13 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
       renderizarTareasEnCalendario(tarjeta);
     });
     ocultarCarga();
+  } catch (error) {
+    console.error("Error al obtener documentos: ", error);
   }
+}
+
+
+
 
 
 
@@ -727,6 +773,7 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
 
       // Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
+  try {
     mostrarCarga();
     // Limpiar el array de cards antes de obtener las nuevas desde Firestore
     arrayLicencias = [];
@@ -741,7 +788,8 @@ async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
       if (tarjetaFirestore.mes === mes ) {
 
         if (tarjetaFirestore.dia === dia) {
-            arrayLicencias.push(tarjetaFirestore);
+          tarjetaFirestore.id = doc.id;
+          arrayLicencias.push(tarjetaFirestore);
         }
         
 
@@ -750,7 +798,11 @@ async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
     ocultarCarga();
   
    return arrayLicencias;
+
+  } catch (error) {
+    console.error("Error al obtener documentos: ", error);
   }
+}
 
 
 
@@ -809,7 +861,7 @@ function renderizarTareasEnCalendario (tarea){
     }
 
     tareaAInsertar.innerHTML = `
-        <p class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
+        <p id="${tarea.id}" class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
     `
 
     casilla.appendChild(tareaAInsertar);
@@ -817,3 +869,29 @@ function renderizarTareasEnCalendario (tarea){
 
 
 
+
+
+
+
+
+
+
+async function eliminarTareaDeFirestore (idEliminar) {
+  mostrarCarga();
+  let tarea = arrayLicencias.find((t) => t.id === idEliminar);
+    if (tarea) {
+      let respuesta = await sweetAlertConfirm();
+
+    if (respuesta) {
+      deleteDoc(doc(db, "licenciasCalendario", tarea.id));
+      sweetAlertOK("Tarea eliminada", "success");
+      cerrarModalDeTareas();
+      obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
+      ocultarCarga();
+    } 
+    ocultarCarga();
+    } else {
+      sweetAlertOK("Ocurrió un error, actualizar página", "error");
+    }
+    
+}

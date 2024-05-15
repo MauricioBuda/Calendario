@@ -107,6 +107,10 @@ ol{
   cursor: pointer;
 }
 
+.days-disabled{
+  pointer-events: none;
+}
+
 .rojo{
   background-color: blue;
 }
@@ -222,7 +226,8 @@ ol{
 .formulario-close{
   font-size: 1.5vw;
   border: none;
-  background-color: rgba(255, 255, 255, 0);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.158);
   color: red;
   font-weight: bold;
   position: absolute;
@@ -236,11 +241,11 @@ ol{
 }
 
 .formulario-add{
-  filter: drop-shadow(2px 2px 3px black);
+  filter: drop-shadow(1px 1px 2px black);
   font-size: 2vw;
   border: none;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.096);
+  background-color: rgba(255, 255, 255, 0.103);
   color: blueviolet;
   font-weight: bold;
   position: relative;
@@ -598,6 +603,10 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 
 
 /* INICIA TAREA RENDERIZADA CALENDARIO↓ */
+.div-tareas-renderizadas{
+  width: max-content;
+  margin-left: 5px;
+}
 
 .tarea-renderizada{
   margin-bottom: 3px;
@@ -625,11 +634,15 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   }
   
   .tarea-renderizada{
-    width: 12vw;
+    width: 11vw;
     padding: 0 0 0 5px;
   }
 }
 /* FIN TAREA RENDERIZADA CALENDARIO↑ */
+
+
+
+
 
 
 
@@ -652,11 +665,17 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 }
 
 .div-tareas-modal span{
+  display:flex;
+  align-items: center;
+  height: 4vh;
   min-width: 20vw;
   text-align: center;
 }
 
 .trash-card{
+  display: flex;
+  border:none;
+  background-color: rgba(255, 255, 255, 0);
   width: 2vw;
 }
 
