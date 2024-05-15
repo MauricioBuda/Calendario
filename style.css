@@ -667,12 +667,13 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 .div-tareas-modal span{
   display:flex;
   align-items: center;
+  justify-content: center;
   height: 4vh;
   min-width: 20vw;
   text-align: center;
 }
 
-.trash-card{
+.btn-trash-card{
   display: flex;
   border:none;
   background-color: rgba(255, 255, 255, 0);
@@ -692,8 +693,12 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
     min-width: 28vw;
   }
   
+  .btn-trash-card{
+    width: 8vw;
+  }
+
   .trash-card{
-    width: 5vw;
+    width: 25vw;
   }
 }
 
