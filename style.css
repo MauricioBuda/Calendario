@@ -629,6 +629,10 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 
 @media screen and (max-width: 524px) {
 
+  .div-tareas-renderizadas{
+    margin-left: 2px;
+  }
+
   .span-licencia-calendario{
     display:none;
   }
@@ -636,6 +640,7 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   .tarea-renderizada{
     width: 11vw;
     padding: 0 0 0 5px;
+    margin:  0 0 0 0;
   }
 }
 /* FIN TAREA RENDERIZADA CALENDARIO↑ */
