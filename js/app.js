@@ -65,6 +65,7 @@ selectores.forEach(selector => {
 let pNotas = document.getElementById("p-notas");
 let spanParaNotas = document.getElementById("p-para-notas");
 let btnAgregarGuardarNotas = document.getElementById("boton-add-notas");
+let bordeNotas = document.getElementById("span-borde-notas");
 btnAgregarGuardarNotas.addEventListener("click", agregarGuardarNotas);
 
 //  SVG
@@ -759,6 +760,8 @@ async function cargarTarea () {
 
     // Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
+  let mesParaNotas = mes.toUpperCase();
+  ponerMesEnBordeDeNotas(mesParaNotas);
   try {
 
     mostrarCarga();
@@ -810,6 +813,16 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
   } catch (error) {
     console.error("Error al obtener documentos: ", error);
   }
+}
+
+
+
+
+
+
+
+function ponerMesEnBordeDeNotas (mes){
+ bordeNotas.innerText = `NOTAS DE ${mes}`;
 }
 
 
