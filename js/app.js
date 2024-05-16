@@ -211,10 +211,10 @@ function asignarEventosSegunDondeHagaClick() {
           eliminarTareaDeFirestore(event.target.id.split("-")[1]);
         } 
 
-        // else if (event.target.classList.contains("claseParaExtraerDia-")) {
-        //   console.log(event.target.id.split("-")[1])
-        //   clickEnCasilla(event.target.id.split("-")[1]);
-        // } 
+        else if (event.target.classList.contains("tarea-renderizada")) {
+          let id = event.target.getAttribute("data-id");
+          clickEnCasilla(id);
+        } 
     })
 }  
 
@@ -866,7 +866,7 @@ function renderizarTareasEnCalendario (tarea){
     }
 
     tareaAInsertar.innerHTML = `
-        <p id="${tarea.id}" class="claseParaExtraerDia-${tarea.dia} tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
+        <p id="${tarea.id}" data-id="${tarea.dia}" class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
     `
 
     casilla.appendChild(tareaAInsertar);
