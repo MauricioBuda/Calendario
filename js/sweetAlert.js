@@ -6,7 +6,7 @@ function sweetAlertOK (title, successOrError){
         icon: successOrError,
         title: title,
         showConfirmButton: false,
-        timer: 2000
+        timer: 1200
       });
 }
 

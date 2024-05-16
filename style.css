@@ -708,3 +708,34 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 }
 
 /* FIN TAREA RENDERIZADA MODAL↑ */
+
+
+
+
+
+
+
+
+
+
+/* INICIO NOTAS ↓ */
+
+.p-notas{
+  padding: 8px;
+  border: solid 1px black;
+  height: 10vh;
+  margin: 0 1vw;
+  width: 98%;
+  border-radius: 10px;
+  resize: none;
+  position: relative;
+}
+
+.span-notas{
+  position: absolute;
+  top: -15%;
+  background-color: white;
+  padding: 0 5px;
+}
+
+/* FIN NOTAS ↑ */
