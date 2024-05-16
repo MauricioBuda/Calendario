@@ -562,12 +562,10 @@ function cerrarModalDeTareas (){
 
     if (modalConTareas) {
     modalTareas.removeChild(modalConTareas);
-      
     }
 
     if (modalConFormulario) {
     contenedorFormulario.removeChild(modalConFormulario);
-      
     }
 
 }
@@ -887,20 +885,21 @@ async function eliminarTareaDeFirestore (idEliminar) {
   mostrarCarga();
   let tarea = arrayLicencias.find((t) => t.id === idEliminar);
     if (tarea) {
-      let respuesta = await sweetAlertConfirm();
+        let respuesta = await sweetAlertConfirm();
 
-    if (respuesta) {
-      deleteDoc(doc(db, "licenciasCalendario", tarea.id));
-      sweetAlertOK("Tarea eliminada", "success");
-      cerrarModalDeTareas();
-      obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
-      ocultarCarga();
-    } 
-    ocultarCarga();
-    } else {
-      sweetAlertOK("Ocurrió un error, actualizar página", "error");
+        if (respuesta) {
+            deleteDoc(doc(db, "licenciasCalendario", tarea.id));
+            cerrarModalDeTareas();
+            sweetAlertOK("Tarea eliminada", "success");
+            obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
+            setTimeout(() => {
+                location.reload();;
+            }, 1500);
+        } else {
+            sweetAlertOK("Ocurrió un error, actualizar página", "error");
+            ocultarCarga();
+        }
     }
-    
 }
 
 
