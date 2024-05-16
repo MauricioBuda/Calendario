@@ -63,8 +63,9 @@ selectores.forEach(selector => {
 
 // Notas
 let pNotas = document.getElementById("p-notas");
+let spanParaNotas = document.getElementById("p-para-notas");
 let btnAgregarGuardarNotas = document.getElementById("boton-add-notas");
-btnAgregarGuardarNotas.addEventListener("click", ()=> {console.log("prueba")})
+btnAgregarGuardarNotas.addEventListener("click", agregarGuardarNotas);
 
 //  SVG
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -920,6 +921,16 @@ async function eliminarTareaDeFirestore (idEliminar) {
     }
 }
 
+
+
+
+
+
+
+
+function agregarGuardarNotas () {
+  spanParaNotas.contentEditable = !spanParaNotas.contentEditable;
+}
 
 
 
