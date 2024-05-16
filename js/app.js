@@ -61,6 +61,11 @@ selectores.forEach(selector => {
     selector.addEventListener("change", ()=> { obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value)});
 });
 
+// Notas
+let pNotas = document.getElementById("p-notas");
+let btnAgregarGuardarNotas = document.getElementById("boton-add-notas");
+btnAgregarGuardarNotas.addEventListener("click", ()=> {console.log("prueba")})
+
 //  SVG
 let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-svg" id="add-formulario-svg" " fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -341,9 +346,13 @@ function elegirMes() {
 
 function ponerSacarBorroso () {
     // Acomodo las clases para que el fondo quede borroso
+    pNotas.classList.toggle("poner-borroso");
+    btnAgregarGuardarNotas.classList.toggle("poner-borroso");
     olCalendario.classList.toggle("poner-borroso");
     btnResumen.classList.toggle("poner-borroso");
-    btnResumen.disabled =  !btnResumen.disabled;
+
+    btnAgregarGuardarNotas.disabled = !btnAgregarGuardarNotas.disabled;
+    btnResumen.disabled = !btnResumen.disabled;
 
     let casillasDias = document.querySelectorAll('.days');
 
@@ -561,12 +570,10 @@ function cerrarModalDeTareas (){
   ponerSacarBorroso();
 
     if (modalConTareas && modalTareas) {
-      console.log("1")
     modalTareas.removeChild(modalConTareas);
     }
 
     if (modalConFormulario && contenedorFormulario) {
-      console.log("2")
     contenedorFormulario.removeChild(modalConFormulario);
     }
 
@@ -687,6 +694,14 @@ async function cargarTarea () {
         if (selectorActividadFormularioElegido === "HorasExtra") {
             let contadorHoras = document.getElementById("horas-contador");
             horasExtra = contadorHoras.textContent;
+        }
+
+        if (selectorActividadFormularioElegido === "HorasExtra" || selectorActividadFormularioElegido === "HorasDeuda" ) {
+            if (parseFloat(horasDeuda) === 0 && parseFloat(horasExtra) === 0) {
+                sweetAlertOK("El valor debe ser distinto a 0", "error");
+                ocultarCarga();
+                return;
+            }
         }
 
         let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
@@ -893,10 +908,8 @@ async function eliminarTareaDeFirestore (idEliminar) {
 
         if (respuesta) {
             await deleteDoc(doc(db, "licenciasCalendario", tarea.id));
-            // cerrarModalDeTareas();
             sweetAlertOK("Tarea eliminada", "success");
             obtenerLicenciasDesdeFirestore (selectorDeMes.value, selectorRecepcionista.value, selectorLicencia.value);
-            console.log("Eliminada en teoría")
             setTimeout(() => {
                 location.reload();;
             }, 800);
