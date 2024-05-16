@@ -750,12 +750,22 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   padding: 0 5px;
 }
 
-.boton-agregar-guardar-notas{
+.boton-agregar-notas{
   position: absolute;
   bottom: 5%;
   right: 1.2%;
   color: white;
   background-color: rgba(0, 128, 0, 0.89);
+  border: none;
+  border-radius: 15px;
+}
+
+.boton-guardar-notas{
+  position: absolute;
+  bottom: 5%;
+  right: 1.2%;
+  color: white;
+  background-color: rgba(158, 26, 26, 0.89);
   border: none;
   border-radius: 15px;
 }
@@ -768,11 +778,17 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
     height: 30vh;
   }
 
-  .boton-agregar-guardar-notas{
+  .boton-agregar-notas{
     position: absolute;
     right: 2%;
     bottom: 2%;
   }
+
+.boton-guardar-notas{
+    position: absolute;
+    right: 2%;
+    bottom: 2%;
+}
 
   .span-borde-notas{
     top: -7%;

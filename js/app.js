@@ -373,6 +373,31 @@ function ponerSacarBorroso () {
 
 
 
+function ponerSacarBorrosoCuandoAgregoNota () {
+  // Acomodo las clases para que el fondo quede borroso
+  olCalendario.classList.toggle("poner-borroso");
+  btnResumen.classList.toggle("poner-borroso");
+
+  btnResumen.disabled = !btnResumen.disabled;
+
+  let casillasDias = document.querySelectorAll('.days');
+
+  casillasDias.forEach(dia => {
+    dia.classList.toggle("days-disabled")
+  });
+
+  selectores.forEach(selector => {
+      selector.classList.toggle('poner-borroso');
+      // Los dehabilito ↓
+      selector.disabled = !selector.disabled;
+  });
+}
+
+
+
+
+
+
 
 
 
@@ -929,7 +954,25 @@ async function eliminarTareaDeFirestore (idEliminar) {
 
 
 function agregarGuardarNotas () {
-  spanParaNotas.contentEditable = !spanParaNotas.contentEditable;
+
+   if (spanParaNotas.contentEditable === "true") {
+
+    ponerSacarBorrosoCuandoAgregoNota();
+    btnAgregarGuardarNotas.classList.remove("boton-guardar-notas");
+    btnAgregarGuardarNotas.classList.add("boton-agregar-notas");
+    btnAgregarGuardarNotas.textContent = "AGREGAR NOTAS";
+    spanParaNotas.contentEditable = false;
+    
+   } else {
+
+    ponerSacarBorrosoCuandoAgregoNota();
+    btnAgregarGuardarNotas.classList.add("boton-guardar-notas");
+    btnAgregarGuardarNotas.classList.remove("boton-agregar-notas");
+    btnAgregarGuardarNotas.textContent = "GUARDAR";
+    spanParaNotas.contentEditable = true;
+    spanParaNotas.focus();
+
+   }
 }
 
 
