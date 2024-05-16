@@ -974,6 +974,7 @@ function agregarGuardarNotas () {
     btnAgregarGuardarNotas.classList.remove("boton-guardar-notas");
     btnAgregarGuardarNotas.classList.add("boton-agregar-notas");
     btnAgregarGuardarNotas.textContent = "AGREGAR NOTAS";
+    btnAgregarGuardarNotas.classList.remove("span-con-notas-editando");
     spanParaNotas.contentEditable = false;
     
    } else {
@@ -983,6 +984,7 @@ function agregarGuardarNotas () {
     btnAgregarGuardarNotas.classList.remove("boton-agregar-notas");
     btnAgregarGuardarNotas.textContent = "GUARDAR";
     spanParaNotas.contentEditable = true;
+    btnAgregarGuardarNotas.classList.add("span-con-notas-editando");
     spanParaNotas.focus();
 
    }

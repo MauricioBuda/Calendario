@@ -770,6 +770,14 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   border-radius: 15px;
 }
 
+.span-con-notas{
+  padding: 3px;
+}
+
+.span-con-notas-editando{
+  border: solid 1px black;
+}
+
 
 
 
