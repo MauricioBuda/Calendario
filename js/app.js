@@ -115,53 +115,7 @@ function ocultarCarga() {
 
 
 
-  
 
-
-
-
-
-// Traer licencias restantes de la db
-async function actualizarLicenciasRestantes () {
-  mostrarCarga();
- try {
-    let datos = await traerLicenciasRestantes();
-    datos.forEach(element => {
-
-      if (element.id === "Angie") {
-        licenciaAngie.vacaciones = element.vacaciones;
-        licenciaAngie.estudio = element.estudio;
-        licenciaAngie.extra = element.extra;
-        licenciaAngie.deuda = element.deuda;
-      }
-      if (element.id === "Cami") {
-      licenciaCami.vacaciones = element.vacaciones;
-      licenciaCami.estudio = element.estudio;
-      licenciaCami.extra = element.extra;
-      licenciaCami.deuda = element.deuda;
-      }
-
-      if (element.id === "Rocio") {
-      licenciaRo.vacaciones = element.vacaciones;
-      licenciaRo.estudio = element.estudio; 
-      licenciaRo.extra = element.extra;
-      licenciaRo.deuda = element.deuda;
-      }
-
-      if (element.id === "Quimey") {
-        licenciaQuimey.vacaciones = element.vacaciones;
-        licenciaQuimey.estudio = element.estudio;
-        licenciaQuimey.extra = element.extra;
-        licenciaQuimey.deuda = element.deuda;
-      }
-
-    });
-    ocultarCarga();
-  } catch (error) {
-    ocultarCarga();
-    console.error('Error al actualizar las licencias restantes: ', error);
-  }
-}
 
 
 
@@ -767,37 +721,10 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
 
 
 
-function ponerMesEnBordeDeNotas (mes){
- bordeNotas.innerText = `NOTAS DE ${mes}`;
-}
 
 
 
-
-
-
-async function traerNotasExistentesDeFirestore (mes) {
-  try {
-    let notasExistentes = await mostrarNotasDeFirestore(mes);
-
-    console.log(notasExistentes)
-  
-    spanParaNotas.textContent = notasExistentes;
-  } catch (error) {
-    
-  }
-}
-
-
-
-
-
-
-
-
-
-
-      // Función para obtener las cards desde Firestore
+// Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
   try {
     mostrarCarga();
@@ -829,6 +756,40 @@ async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
     console.error("Error al obtener documentos: ", error);
   }
 }
+
+
+
+
+
+
+
+function ponerMesEnBordeDeNotas (mes){
+ bordeNotas.innerText = `NOTAS DE ${mes}`;
+}
+
+
+
+
+
+
+async function traerNotasExistentesDeFirestore (mes) {
+  try {
+    let notasExistentes = await mostrarNotasDeFirestore(mes);
+  
+    spanParaNotas.textContent = notasExistentes;
+
+  } catch (error) {
+    sweetAlertOK("Error, actualizar página por favor", "error");
+  }
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -979,6 +940,59 @@ function agregarGuardarNotas () {
 
 
 
+
+
+// Traer licencias restantes de la db
+async function actualizarLicenciasRestantes () {
+  mostrarCarga();
+ try {
+    let datos = await traerLicenciasRestantes();
+    datos.forEach(element => {
+
+      if (element.id === "Angie") {
+        licenciaAngie.vacaciones = element.vacaciones;
+        licenciaAngie.estudio = element.estudio;
+        licenciaAngie.extra = element.extra;
+        licenciaAngie.deuda = element.deuda;
+      }
+      if (element.id === "Cami") {
+        licenciaCami.vacaciones = element.vacaciones;
+        licenciaCami.estudio = element.estudio;
+        licenciaCami.extra = element.extra;
+        licenciaCami.deuda = element.deuda;
+      }
+
+      if (element.id === "Rocio") {
+        licenciaRo.vacaciones = element.vacaciones;
+        licenciaRo.estudio = element.estudio; 
+        licenciaRo.extra = element.extra;
+        licenciaRo.deuda = element.deuda;
+      }
+
+      if (element.id === "Quimey") {
+        licenciaQuimey.vacaciones = element.vacaciones;
+        licenciaQuimey.estudio = element.estudio;
+        licenciaQuimey.extra = element.extra;
+        licenciaQuimey.deuda = element.deuda;
+      }
+
+    });
+    ocultarCarga();
+  } catch (error) {
+    ocultarCarga();
+    console.error('Error al actualizar las licencias restantes: ', error);
+  }
+}
+
+
+
+
+
+
+
+
+
+
 async function desplegarResumen () {
   contenedorResumen.classList.remove("aplicar-display-none");
 
@@ -996,19 +1010,19 @@ async function desplegarResumen () {
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaAngie.vacaciones} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
           </span> 
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaAngie.estudio}/10 </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaAngie.extra} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas adeudadas: ${licenciaAngie.deuda} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
@@ -1018,19 +1032,19 @@ async function desplegarResumen () {
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaCami.vacaciones} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Cami" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaCami.estudio}/10 </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Cami" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaCami.extra} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Cami" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas adeudadas: ${licenciaCami.deuda} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Cami" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
@@ -1040,19 +1054,19 @@ async function desplegarResumen () {
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaRo.vacaciones} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Ro" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaRo.estudio}/10 </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Ro" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaRo.extra} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Ro" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas adeudadas: ${licenciaRo.deuda} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Ro" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
@@ -1062,19 +1076,19 @@ async function desplegarResumen () {
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaQuimey.vacaciones} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Quimi" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaQuimey.estudio}/10 </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Quimi" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaQuimey.extra} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Quimi" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas adeudadas: ${licenciaQuimey.deuda} </p>
-            <button class="button-en-resumen"> Detalle </button>
+            <button data-id="Quimi" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
@@ -1082,6 +1096,11 @@ async function desplegarResumen () {
   </div>
   `
   contenedorResumen.appendChild(cardsResumen)
+
+  let btnEnResumen = document.querySelectorAll(".button-en-resumen");
+  btnEnResumen.forEach(element => {
+    element.addEventListener("click", modificarResumen);
+  });
 }
 
 
@@ -1091,6 +1110,38 @@ async function desplegarResumen () {
 
 
 
-function modificarResumen() {
-  console.log("resumen")
+async function modificarResumen(event) {
+  mostrarCarga();
+  let recepcionistaDataId = event.target.getAttribute("data-id");
+  let licenciaDataId = event.target.getAttribute("data-id2");
+
+  
+  try {
+    // Obtener todas las tareas desde Firestore
+    const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+  
+    // Iterar sobre las tareas y agregarlas al array y al contenedor
+    querySnapshot.forEach((doc) => {
+      const tarjetaFirestore = doc.data();
+  
+      if (tarjetaFirestore.recepcionista === recepcionistaDataId ) {
+
+        if (tarjetaFirestore.licencia === licenciaDataId) {
+          console.log(tarjetaFirestore.dia)
+          console.log(tarjetaFirestore.mes)
+            // tarjetaFirestore.id = doc.id;
+            // arrayLicencias.push(tarjetaFirestore);
+        }
+
+      }
+    });
+  
+    // Iterar sobre las tarjetas y agregarlas al contenedor
+    arrayLicencias.forEach(tarjeta => {
+      renderizarTareasEnCalendario(tarjeta);
+    });
+    ocultarCarga();
+  } catch (error) {
+    console.error("Error al obtener documentos: ", error);
+  }
 }
