@@ -482,7 +482,7 @@ async function formularioNuevaTarea(dia){
           <option value="Estudio" >DÍA DE ESTUDIO </option>
           <option value="Vacaciones" >VACACIONES </option>
           <option value="HorasExtra" >HORAS EXTRA </option>
-          <option value="HorasDeuda" >HORAS ADEUDADAS </option>
+          <option value="HorasDeuda" >HORAS ADEUDADAS (total) </option>
           <option value="Enfermedad">ENFERMEDAD</option>
           <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
           <option value="Otras" >OTRAS LICENCIAS </option>
@@ -611,63 +611,6 @@ function cerrarModalDeTareas (){
 
 
 
-async function desplegarResumen () {
-    contenedorResumen.classList.remove("aplicar-display-none");
-
-    ponerSacarBorroso();
-
-    await actualizarLicenciasRestantes();
-
-    let cardsResumen = document.createElement("div");
-    cardsResumen.innerHTML = `
-    <button class="btn-close-resumen" id="btn-close-resumen">X</button>
-  <div class="cards-resumen">
-    <div class="card-resumen card-angie">
-      <h1 class="h1-cards">Resumen licencias Angie</h1>
-      <div class="div-p-cards">
-        <p>Vacaciones: ${licenciaAngie.vacaciones}/14 </p>
-        <p>Días estudio: ${licenciaAngie.estudio}/10</p>
-        <p>Horas extra: ${licenciaAngie.extra}</p>
-        <p>Horas adeudadas: ${licenciaAngie.deuda} </p>
-      </div>
-    </div>
-
-    <div class="card-resumen card-cami">
-      <h1 class="h1-cards">Resumen licencias Cami</h1>
-      <div class="div-p-cards">
-      <p>Vacaciones: ${licenciaCami.vacaciones}/14 </p>
-      <p>Días estudio: ${licenciaCami.estudio}/10</p>
-      <p>Horas extra: ${licenciaCami.extra}</p>
-      <p>Horas adeudadas: ${licenciaCami.deuda} </p>
-      </div>
-    </div>
-
-    <div class="card-resumen card-ro">
-      <h1 class="h1-cards">Resumen licencias Ro</h1>
-      <div class="div-p-cards">
-      <p>Vacaciones: ${licenciaRo.vacaciones}/21 </p>
-      <p>Días estudio: ${licenciaRo.estudio}/10</p>
-      <p>Horas extra: ${licenciaRo.extra}</p>
-      <p>Horas adeudadas: ${licenciaRo.deuda} </p>
-      </div>
-    </div>
-
-    <div class="card-resumen card-quimey">
-      <h1 class="h1-cards">Resumen licencias Quimi</h1>
-      <div class="div-p-cards">
-      <p>Vacaciones: ${licenciaQuimey.vacaciones}/14 </p>
-      <p>Días estudio: ${licenciaQuimey.estudio}/10</p>
-      <p>Horas extra: ${licenciaQuimey.extra}</p>
-      <p>Horas adeudadas: ${licenciaQuimey.deuda} </p>
-      </div>
-    </div>
-  </div>
-    `
-    contenedorResumen.appendChild(cardsResumen)
-}
-
-
-
 
 
 
@@ -758,7 +701,7 @@ async function cargarTarea () {
 
 
 
-    // Función para obtener las cards desde Firestore
+// Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
   let mesParaNotas = mes.toUpperCase();
 
@@ -1030,6 +973,118 @@ function agregarGuardarNotas () {
    ocultarCarga();
     
 }
+
+
+
+
+
+
+async function desplegarResumen () {
+  contenedorResumen.classList.remove("aplicar-display-none");
+
+  ponerSacarBorroso();
+
+  await actualizarLicenciasRestantes();
+
+  let cardsResumen = document.createElement("div");
+  cardsResumen.innerHTML = `
+  <button class="btn-close-resumen" id="btn-close-resumen">X</button>
+  <div class="cards-resumen">
+
+      <div class="card-resumen card-angie">
+        <h1 class="h1-cards">Resumen licencias Angie</h1>
+        <div class="div-p-cards">
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Vacaciones tomadas: ${licenciaAngie.vacaciones} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span> 
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Días estudio: ${licenciaAngie.estudio}/10 </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas extra: ${licenciaAngie.extra} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas adeudadas: ${licenciaAngie.deuda} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="card-resumen card-cami">
+        <h1 class="h1-cards">Resumen licencias Cami</h1>
+        <div class="div-p-cards">
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Vacaciones tomadas: ${licenciaCami.vacaciones} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Días estudio: ${licenciaCami.estudio}/10 </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas extra: ${licenciaCami.extra} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas adeudadas: ${licenciaCami.deuda} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="card-resumen card-ro">
+        <h1 class="h1-cards">Resumen licencias Ro</h1>
+        <div class="div-p-cards">
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Vacaciones tomadas: ${licenciaRo.vacaciones} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Días estudio: ${licenciaRo.estudio}/10 </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas extra: ${licenciaRo.extra} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas adeudadas: ${licenciaRo.deuda} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="card-resumen card-quimey">
+        <h1 class="h1-cards">Resumen licencias Quimi</h1>
+        <div class="div-p-cards">
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Vacaciones tomadas: ${licenciaQuimey.vacaciones} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Días estudio: ${licenciaQuimey.estudio}/10 </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas extra: ${licenciaQuimey.extra} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+          <span class="span-dentro-resumen">
+            <p class="p-resumen"> Horas adeudadas: ${licenciaQuimey.deuda} </p>
+            <button class="button-en-resumen"> Detalle </button>
+          </span>
+        </div>
+      </div>
+
+  </div>
+  `
+  contenedorResumen.appendChild(cardsResumen)
+}
+
+
 
 
 
