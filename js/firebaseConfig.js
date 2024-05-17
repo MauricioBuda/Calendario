@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, addDoc, doc, getDocs, collection } from "firebase/firestore"; 
+import { getFirestore, addDoc, getDoc, doc, getDocs, collection, updateDoc } from "firebase/firestore"; 
+import { sweetAlertOK } from "./sweetAlert";
 
 
 
@@ -58,8 +59,34 @@ async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExt
         id: nuevaLicencia.id
         });
     } catch (error) {
+        sweetAlertOK("Ocurrió un error, actualice página", "error");
         console.error("Error al agregar la tarea a Firestore", error);
         }
+}
+
+
+
+
+
+
+
+
+
+async function actualizarNotasMeses(mes, notaNueva) {
+
+  try{
+
+  let docRef =  doc(db, "notas", "vXxa4CEfZT1HKnhNOyre");
+
+    await updateDoc(docRef, {
+      [mes]: notaNueva 
+    });
+
+  } catch (error) {
+      sweetAlertOK("Ocurrió un error, actualice página", "error");
+      console.error('Error obteniendo documentos: ', error);
+      throw error; // Lanza el error para que sea manejado por la llamada de la función
+  }
 }
   
 
@@ -69,5 +96,42 @@ async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExt
 
 
 
-  export { traerLicenciasRestantes, cargarTareaFirestore, db }
+
+
+
+async function mostrarNotasDeFirestore(mes) {
+  let notaExistente
+  try {
+    // Obtén la referencia del documento
+    let docRef = doc(db, "notas", "vXxa4CEfZT1HKnhNOyre");
+
+    // Obtén el documento
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+
+      // Imprime los campos del documento
+      let data = docSnap.data();
+      for (let campo in data) {
+        if (campo.toUpperCase() === mes) {
+        notaExistente = data[campo];
+        }
+      }
+    } else {
+      console.log("El documento no existe.");
+    }
+
+    return notaExistente; // No se necesita devolver nada en este caso
+  } catch (error) {
+    sweetAlertOK("Ocurrió un error, actualice página", "error");
+    console.error('Error obteniendo documentos: ', error);
+    throw error; // Lanza el error para que sea manejado por la llamada de la función
+  }
+}
+  
+
+
+
+
+  export { traerLicenciasRestantes, cargarTareaFirestore, actualizarNotasMeses, mostrarNotasDeFirestore, db }
 

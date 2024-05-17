@@ -733,11 +733,11 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 .p-notas{
   padding: 8px;
   border: solid 1px black;
-  height: 10vh;
+  min-height: 10vh;
   margin: 1vw;
   width: 98%;
   border-radius: 10px;
-  resize: none;
+  /* resize: none; */
   position: relative;
 }
 
@@ -775,7 +775,8 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 }
 
 .span-con-notas-editando{
-  border: solid 1px black;
+  border: solid 1px rgba(0, 0, 0, 0.658);
+  border-radius: 10px;
 }
 
 

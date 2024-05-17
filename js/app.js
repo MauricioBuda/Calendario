@@ -1,7 +1,7 @@
-import { traerLicenciasRestantes, cargarTareaFirestore } from "./firebaseConfig";
+import { traerLicenciasRestantes, cargarTareaFirestore, actualizarNotasMeses, mostrarNotasDeFirestore } from "./firebaseConfig";
 
 import { deleteDoc, doc } from 'firebase/firestore';
-import { db } from './firebaseConfig'; // Asumiendo que ya tienes configurada tu conexión a Firestore
+import { db } from './firebaseConfig'; 
 
 import { sweetAlertOK, sweetAlertConfirm } from "./sweetAlert";
 
@@ -761,7 +761,10 @@ async function cargarTarea () {
     // Función para obtener las cards desde Firestore
 async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
   let mesParaNotas = mes.toUpperCase();
+
   ponerMesEnBordeDeNotas(mesParaNotas);
+  traerNotasExistentesDeFirestore(mesParaNotas);
+
   try {
 
     mostrarCarga();
@@ -823,6 +826,23 @@ async function obtenerLicenciasDesdeFirestore(mes, recepcionista, licencia) {
 
 function ponerMesEnBordeDeNotas (mes){
  bordeNotas.innerText = `NOTAS DE ${mes}`;
+}
+
+
+
+
+
+
+async function traerNotasExistentesDeFirestore (mes) {
+  try {
+    let notasExistentes = await mostrarNotasDeFirestore(mes);
+
+    console.log(notasExistentes)
+  
+    spanParaNotas.textContent = notasExistentes;
+  } catch (error) {
+    
+  }
 }
 
 
@@ -967,27 +987,48 @@ async function eliminarTareaDeFirestore (idEliminar) {
 
 
 function agregarGuardarNotas () {
-
+   mostrarCarga();
    if (spanParaNotas.contentEditable === "true") {
+    mostrarCarga();
+
+
+
+    console.log(spanParaNotas.textContent)
+    let notaNueva = spanParaNotas.textContent;
+    actualizarNotasMeses(selectorDeMes.value, notaNueva);
+
 
     ponerSacarBorrosoCuandoAgregoNota();
     btnAgregarGuardarNotas.classList.remove("boton-guardar-notas");
     btnAgregarGuardarNotas.classList.add("boton-agregar-notas");
     btnAgregarGuardarNotas.textContent = "AGREGAR NOTAS";
-    btnAgregarGuardarNotas.classList.remove("span-con-notas-editando");
+    spanParaNotas.classList.remove("span-con-notas-editando");
     spanParaNotas.contentEditable = false;
     
+    ocultarCarga();
+    
    } else {
+
+    spanParaNotas.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+      }
+    });
 
     ponerSacarBorrosoCuandoAgregoNota();
     btnAgregarGuardarNotas.classList.add("boton-guardar-notas");
     btnAgregarGuardarNotas.classList.remove("boton-agregar-notas");
     btnAgregarGuardarNotas.textContent = "GUARDAR";
     spanParaNotas.contentEditable = true;
-    btnAgregarGuardarNotas.classList.add("span-con-notas-editando");
+    spanParaNotas.classList.add("span-con-notas-editando");
     spanParaNotas.focus();
-
+    
+    ocultarCarga();
+    
    }
+       
+   ocultarCarga();
+    
 }
 
 
