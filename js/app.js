@@ -974,7 +974,6 @@ licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
     // Iterar sobre las tareas y agregarlas al array y al contenedor
     querySnapshot.forEach((doc) => {
       const tarjetaFirestore = doc.data();
-      console.log(tarjetaFirestore)
       if (tarjetaFirestore.recepcionista === "Angie") {
         
       switch (tarjetaFirestore.licencia) {
@@ -1173,49 +1172,9 @@ async function desplegarResumen () {
   `
   contenedorResumen.appendChild(cardsResumen)
 
-  let btnEnResumen = document.querySelectorAll(".button-en-resumen");
-  btnEnResumen.forEach(element => {
-    element.addEventListener("click", modificarResumen);
-  });
 }
 
 
 
 
 
-
-
-
-async function modificarResumen(event) {
-  mostrarCarga();
-  let recepcionistaDataId = event.target.getAttribute("data-id");
-  let licenciaDataId = event.target.getAttribute("data-id2");
-
-  let totalVacaciones = 0;
-  let totalEstudio = 0;
-  let totalExtra = 0;
-  let totalDeuda = 0;
-  
-  try {
-    // Obtener todas las tareas desde Firestore
-    const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
-  
-    // Iterar sobre las tareas y agregarlas al array y al contenedor
-    querySnapshot.forEach((doc) => {
-      const tarjetaFirestore = doc.data();
-
-        if (tarjetaFirestore.licencia === licenciaDataId) {
-          console.log(tarjetaFirestore.dia)
-          console.log(tarjetaFirestore.mes)
-        }
-
-    });
-    console.log(totalVacaciones, totalEstudio, totalExtra, totalDeuda)
-
-    ocultarCarga();
-  } catch (error) {
-    console.error("Error al obtener documentos: ", error);
-    ocultarCarga();
-  }
-  ocultarCarga();
-}
