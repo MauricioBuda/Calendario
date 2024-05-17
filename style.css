@@ -737,7 +737,7 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   margin: 1vw;
   width: 98%;
   border-radius: 10px;
-  /* resize: none; */
+  overflow-wrap: break-word;
   position: relative;
 }
 
@@ -771,7 +771,7 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 }
 
 .span-con-notas{
-  padding: 3px;
+  padding: 0px 3px;
 }
 
 .span-con-notas-editando{
