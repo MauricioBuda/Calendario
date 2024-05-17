@@ -384,9 +384,23 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   gap: 1vw;
 }
 
-.span-contador{
-  text-align: center;
+
+
+.div-span-contador{
   width: 5vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.span-contador{
+  display: inline-block;
+  text-align: center;
+  font-size: 2vw;
+}
+
+.span-hs{
   font-size: 2vw;
 }
 
@@ -451,8 +465,15 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
   gap: 5vw;
 }
 
-.span-contador{
+.div-span-contador{
   width: 15vw;
+}
+
+.span-contador{
+  font-size: 7vw;
+}
+
+.span-hs{
   font-size: 7vw;
 }
 

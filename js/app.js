@@ -44,17 +44,18 @@ let modalConFormulario
 let arrayLicencias = [];
 let nuevaLicencia 
 
+// Declaro contadores de licencias
+let licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+
 
 // Resumen
 let btnResumen = document.getElementById("resumen");
 btnResumen.addEventListener("click", desplegarResumen);
 let contenedorResumen = document.getElementById("section-contenedor-resumen");
 
-// Declaro contadores de licencias
-let licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
-let licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
-let licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
-let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
 // Asigno evento a los selectores para que vayan filtrando
 selectores.forEach(selector => {
@@ -436,7 +437,7 @@ async function formularioNuevaTarea(dia){
           <option value="Estudio" >DÍA DE ESTUDIO </option>
           <option value="Vacaciones" >VACACIONES </option>
           <option value="HorasExtra" >HORAS EXTRA </option>
-          <option value="HorasDeuda" >HORAS ADEUDADAS (total) </option>
+          <option value="HorasDeuda" >HORAS ADEUDADAS </option>
           <option value="Enfermedad">ENFERMEDAD</option>
           <option value="FaltaProgramada" >FALTA PROGRAMADA </option>
           <option value="Otras" >OTRAS LICENCIAS </option>
@@ -446,7 +447,10 @@ async function formularioNuevaTarea(dia){
 
         <div id="contenedor-contador" class="div-contador-formulario aplicar-display-none">
           <button id="restar-contador" disabled class="btn-contador"> - </button>
-          <span id="horas-contador" class="span-contador">  0 </span>
+          <div class="div-span-contador">
+            <span id="horas-contador" class="span-contador">0</span>
+            <span class="span-hs">HS</span>
+          </div>
           <button id="sumar-contador" class="btn-contador"> + </button>
         </div>
 
@@ -517,7 +521,7 @@ function sumarHoras () {
   let contadorHoras = document.getElementById("horas-contador");
   
   let horas = parseFloat(contadorHoras.textContent); // Convertir a número
-  contadorHoras.innerText = horas + 0.5 + "HS"; // Incrementar el contador
+  contadorHoras.innerText = horas + 0.5; // Incrementar el contador
 
   restarTogle(horas + 0.5);
 }
@@ -534,7 +538,7 @@ function restarHoras () {
   let contadorHoras = document.getElementById("horas-contador");
   
   let horas = parseFloat(contadorHoras.textContent); // Convertir a número
-  contadorHoras.innerText = horas - 0.5 + "HS"; // Incrementar el contador
+  contadorHoras.innerText = horas - 0.5; // Incrementar el contador
 
   restarTogle(horas - 0.5);
 }
@@ -629,12 +633,13 @@ async function cargarTarea () {
         }
 
         let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
+  
 
-        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, id);
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, id);
 
         arrayLicencias.push(nuevaLicencia);
 
-        await cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id);
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id);
 
         sweetAlertOK("Licencia cargada!", "success")
         cerrarModalDeTareas();
@@ -646,6 +651,9 @@ async function cargarTarea () {
     console.error("Error al obtener documentos: ", error);
   }
 }
+
+
+
 
 
 
@@ -763,9 +771,15 @@ async function obtenerLicenciasDesdeFirestoreModal(dia, mes) {
 
 
 
+
+
+
 function ponerMesEnBordeDeNotas (mes){
  bordeNotas.innerText = `NOTAS DE ${mes}`;
 }
+
+
+
 
 
 
@@ -944,44 +958,106 @@ function agregarGuardarNotas () {
 
 // Traer licencias restantes de la db
 async function actualizarLicenciasRestantes () {
+
+  // Declaro contadores de licencias
+licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+
   mostrarCarga();
- try {
-    let datos = await traerLicenciasRestantes();
-    datos.forEach(element => {
-
-      if (element.id === "Angie") {
-        licenciaAngie.vacaciones = element.vacaciones;
-        licenciaAngie.estudio = element.estudio;
-        licenciaAngie.extra = element.extra;
-        licenciaAngie.deuda = element.deuda;
+  
+  try {
+    // Obtener todas las tareas desde Firestore
+    const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+  
+    // Iterar sobre las tareas y agregarlas al array y al contenedor
+    querySnapshot.forEach((doc) => {
+      const tarjetaFirestore = doc.data();
+      console.log(tarjetaFirestore)
+      if (tarjetaFirestore.recepcionista === "Angie") {
+        
+      switch (tarjetaFirestore.licencia) {
+        case "Vacaciones":
+          licenciaAngie.vacaciones += 1;
+        break;
+        case "Estudio":
+          licenciaAngie.estudio += 1;
+        break;
+        case "HorasExtra":
+          licenciaAngie.extra += tarjetaFirestore.horasExtra;
+        break;
+        case "HorasDeuda":
+          licenciaAngie.deuda += tarjetaFirestore.horasDeuda;
+        break;
+      default:
+        break;
       }
-      if (element.id === "Cami") {
-        licenciaCami.vacaciones = element.vacaciones;
-        licenciaCami.estudio = element.estudio;
-        licenciaCami.extra = element.extra;
-        licenciaCami.deuda = element.deuda;
+    } else if (tarjetaFirestore.recepcionista === "Cami") {
+        
+      switch (tarjetaFirestore.licencia) {
+        case "Vacaciones":
+          licenciaCami.vacaciones += 1;
+        break;
+        case "Estudio":
+          licenciaCami.estudio += 1;
+        break;
+        case "HorasExtra":
+          licenciaCami.extra += tarjetaFirestore.horasExtra;
+        break;
+        case "HorasDeuda":
+          licenciaCami.deuda += tarjetaFirestore.horasDeuda;
+        break;
+      default:
+        break;
       }
-
-      if (element.id === "Rocio") {
-        licenciaRo.vacaciones = element.vacaciones;
-        licenciaRo.estudio = element.estudio; 
-        licenciaRo.extra = element.extra;
-        licenciaRo.deuda = element.deuda;
+    } else if (tarjetaFirestore.recepcionista === "Ro") {
+      switch (tarjetaFirestore.licencia) {
+        case "Vacaciones":
+          licenciaRo.vacaciones += 1;
+        break;
+        case "Estudio":
+          licenciaRo.estudio += 1;
+        break;
+          case "HorasExtra":
+            licenciaRo.extra += tarjetaFirestore.horasExtra;
+          break;
+          case "HorasDeuda":
+            licenciaRo.deuda += tarjetaFirestore.horasDeuda;
+          break;
+      default:
+        break;
       }
-
-      if (element.id === "Quimey") {
-        licenciaQuimey.vacaciones = element.vacaciones;
-        licenciaQuimey.estudio = element.estudio;
-        licenciaQuimey.extra = element.extra;
-        licenciaQuimey.deuda = element.deuda;
+    } else if (tarjetaFirestore.recepcionista === "Quimi") {
+        
+      switch (tarjetaFirestore.licencia) {
+        case "Vacaciones":
+          licenciaQuimey.vacaciones += 1;
+        break;
+        case "Estudio":
+          licenciaQuimey.estudio += 1;
+        break;
+        case "HorasExtra":
+          licenciaQuimey.extra += tarjetaFirestore.horasExtra;
+        break;
+        case "HorasDeuda":
+          licenciaQuimey.deuda += tarjetaFirestore.horasDeuda;
+        break;
+    
+      default:
+        break;
       }
-
+    }
+  
     });
+
+
     ocultarCarga();
   } catch (error) {
+    console.error("Error al obtener documentos: ", error);
     ocultarCarga();
-    console.error('Error al actualizar las licencias restantes: ', error);
   }
+  ocultarCarga();
 }
 
 
@@ -1115,6 +1191,10 @@ async function modificarResumen(event) {
   let recepcionistaDataId = event.target.getAttribute("data-id");
   let licenciaDataId = event.target.getAttribute("data-id2");
 
+  let totalVacaciones = 0;
+  let totalEstudio = 0;
+  let totalExtra = 0;
+  let totalDeuda = 0;
   
   try {
     // Obtener todas las tareas desde Firestore
@@ -1123,21 +1203,19 @@ async function modificarResumen(event) {
     // Iterar sobre las tareas y agregarlas al array y al contenedor
     querySnapshot.forEach((doc) => {
       const tarjetaFirestore = doc.data();
-  
-      if (tarjetaFirestore.recepcionista === recepcionistaDataId ) {
 
         if (tarjetaFirestore.licencia === licenciaDataId) {
           console.log(tarjetaFirestore.dia)
           console.log(tarjetaFirestore.mes)
-            // tarjetaFirestore.id = doc.id;
-            // arrayLicencias.push(tarjetaFirestore);
         }
 
-      }
     });
+    console.log(totalVacaciones, totalEstudio, totalExtra, totalDeuda)
 
     ocultarCarga();
   } catch (error) {
     console.error("Error al obtener documentos: ", error);
+    ocultarCarga();
   }
+  ocultarCarga();
 }
