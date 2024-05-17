@@ -1135,11 +1135,7 @@ async function modificarResumen(event) {
 
       }
     });
-  
-    // Iterar sobre las tarjetas y agregarlas al contenedor
-    arrayLicencias.forEach(tarjeta => {
-      renderizarTareasEnCalendario(tarjeta);
-    });
+
     ocultarCarga();
   } catch (error) {
     console.error("Error al obtener documentos: ", error);
