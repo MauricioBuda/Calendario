@@ -889,13 +889,17 @@ min-width: 25vw;
 
 /* INICIO DETALLES LICENCIAS ↓ */
 .div-detalles-licencias{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: absolute;
+  align-items: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: none;
   border-radius: 15px;
-  background-color: rgb(210, 157, 166);
+  background-image: linear-gradient(45deg, rgba(43,33,93, 0.83),rgb(81, 240, 237));
   padding: 20vh 8vw;
 }
 
@@ -904,15 +908,21 @@ min-width: 25vw;
   border-radius: 50%;
   background-color: rgba(255, 0, 0, 0.783);
   position: absolute;
-  top: 1%;
-  right: 1%;
+  top: 2%;
+  right: 2%;
+}
+
+.h1-detalle-resumen{
+  display: flex;
+  text-align: center;
 }
 
 .p-detalle-resumen{
   display: flex;
-  width: 15vw;
+  width: 20vw;
   justify-content: center;
   border: none;
+  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.608);
 }
 /* FIN DETALLES LICENCIAS  ↑*/

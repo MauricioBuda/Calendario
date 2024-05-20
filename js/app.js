@@ -179,6 +179,10 @@ function asignarEventosSegunDondeHagaClick() {
           let id = event.target.getAttribute("data-id");
           clickEnCasilla(id);
         } 
+
+        else if (event.target.classList.contains("h1-detalle-resumen")) {
+            cerrarModalDetalles();
+          } 
     })
 }  
 
@@ -1196,7 +1200,7 @@ async function desplegarResumen () {
 
   let btnEnResumen = document.querySelectorAll(".button-en-resumen");
   btnEnResumen.forEach(element => {
-    element.addEventListener("click", modificarResumen);
+    element.addEventListener("click", desplegarDetalles);
   });
 
 }
@@ -1212,17 +1216,23 @@ async function desplegarResumen () {
 
 
 
-async function modificarResumen(event) {
+async function desplegarDetalles(event) {
+    
+
     mostrarCarga();
+
     let recepcionistaDataId = event.target.getAttribute("data-id");
     let licenciaDataId = event.target.getAttribute("data-id2");
     let contenedorParaDetalles = document.getElementById("contenedor-detalles-resumen");
     let detallesAInsertar = document.createElement("div");
+
     detallesAInsertar.classList.add("div-detalles-licencias");
+
     detallesAInsertar.innerHTML += `
     <button class="btn-close-detalles"> X </button>
-    <h1> ${licenciaDataId} de ${recepcionistaDataId} </h1>
+    <h1 class="h1-detalle-resumen"> ${licenciaDataId} de ${recepcionistaDataId} </h1>
     `;
+
     try {
         // Obtener todas las tareas desde Firestore
         const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
@@ -1265,43 +1275,13 @@ async function modificarResumen(event) {
 
 
 
-// async function modificarResumen(event) {
-//     mostrarCarga();
-//     let recepcionistaDataId = event.target.getAttribute("data-id");
-//     let licenciaDataId = event.target.getAttribute("data-id2");
-//     let contenedorParaDetalles = document.getElementById("contenedor-detalles-resumen");
-//     let detallesAInsertar = document.createElement("div");
-//     detallesAInsertar.classList.add("div-detalles-licencias");
 
-  
-    
-//     try {
-//       // Obtener todas las tareas desde Firestore
-//       const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
-    
-//       // Iterar sobre las tareas y agregarlas al array y al contenedor
-//       querySnapshot.forEach((doc) => {
-//         const tarjetaFirestore = doc.data();
 
-//           if (tarjetaFirestore.licencia === licenciaDataId) {
 
-//             if(tarjetaFirestore.recepcionista === recepcionistaDataId){
 
-//             console.log(`${tarjetaFirestore.dia} de ${tarjetaFirestore.mes}`)
-//             detallesAInsertar.innerHTML += `
-//                 <p> ${tarjetaFirestore.dia} de ${tarjetaFirestore.mes}
-//             `
 
-//             }
 
-//           }
-//           contenedorParaDetalles.appendChild(detallesAInsertar);
-//       });
-  
-//       ocultarCarga();
-//     } catch (error) {
-//       console.error("Error al obtener documentos: ", error);
-//       ocultarCarga();
-//     }
-//     ocultarCarga();
-//   }
+function cerrarModalDetalles () {
+    let contenedorDetalles = document.querySelector(".div-detalles-licencias");
+    contenedorDetalles.classList.add("aplicar-display-none");
+}
