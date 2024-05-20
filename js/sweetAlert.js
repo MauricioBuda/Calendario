@@ -23,9 +23,9 @@ function sweetAlertConfirm () {
           cancelButtonText: "Cancelar"
         }).then((result) => {
           if (result.isConfirmed) {
-            resolve(true); // Resuelve la promesa con true si el usuario confirma
+            resolve(true); 
           } else {
-            resolve(false); // Resuelve la promesa con false si el usuario cancela
+            resolve(false);
           }
         });
       });

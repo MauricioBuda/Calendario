@@ -17,6 +17,7 @@ import {  collection, getDocs } from 'firebase/firestore';
 let selectores = document.querySelectorAll('.selectores');
 let selectorDeMes = document.getElementById("selectorMes");
 selectorDeMes.addEventListener("change", elegirMes);
+let numeroDeMesSeleccionado
 
 let olCalendario = document.getElementById("ol-calendario");
 let selectorRecepcionista = document.getElementById("selectorRecepcionista");
@@ -85,7 +86,7 @@ let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-s
 
 // Clase para ir cargando las licencias:
 class Licencia {
-    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, id) {
+    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id) {
       this.licencia = licencia;
       this.recepcionista = recepcionista;
       this.dia = dia;
@@ -94,6 +95,7 @@ class Licencia {
       this.horasDeuda = horasDeuda;
       this.fechaCreacionConFormato = fechaCreacionConFormato;
       this.fechaCreacionSinFormato = fechaCreacionSinFormato;
+      this.fechaDeLicencia = fechaDeLicencia;
       this.id = id;
     }
   }
@@ -227,50 +229,63 @@ function elegirMes() {
         case "Enero":
             diasEnMes = 31;
             primerDia.classList.add("empiezaLunes");
+            numeroDeMesSeleccionado = 1;
             break;
         case "Febrero":
             diasEnMes = 29;
             primerDia.classList.add("empiezaJueves");
+            numeroDeMesSeleccionado = 2;
             break;
         case "Marzo":
             diasEnMes = 31;
             primerDia.classList.add("empiezaViernes");
+            numeroDeMesSeleccionado = 3;
             break;
         case "Abril":
             diasEnMes = 30;
             primerDia.classList.add("empiezaMiercoles");
+            numeroDeMesSeleccionado = 4;
             break;
         case "Mayo":
             diasEnMes = 31;
             primerDia.classList.add("empiezaMiercoles");
+            numeroDeMesSeleccionado = 5;
             break;
         case "Junio":
             diasEnMes = 30;
             primerDia.classList.add("empiezaSabado");
+            numeroDeMesSeleccionado = 6;
             break;
         case "Julio":
             diasEnMes = 31;
             primerDia.classList.add("empiezaLunes");
+            numeroDeMesSeleccionado = 7;
             break;
         case "Agosto":
             diasEnMes = 31;
             primerDia.classList.add("empiezaJueves");
+            numeroDeMesSeleccionado = 8;
             break;
         case "Septiembre":
             diasEnMes = 30;
             primerDia.classList.add("empiezaDomingo");
+            numeroDeMesSeleccionado = 9;
             break;
         case "Octubre":
             diasEnMes = 31;
             primerDia.classList.add("empiezaMiercoles");
+            numeroDeMesSeleccionado = 10;
             break;
         case "Noviembre":
             diasEnMes = 30;
             primerDia.classList.add("empiezaViernes");
+            numeroDeMesSeleccionado = 11;
             break;
         case "Diciembre":
             diasEnMes = 31;
             primerDia.classList.add("empiezaDomingo");
+            numeroDeMesSeleccionado = 12;
+
             break;
         default:
             diasEnMes = 0; // Manejar el caso de un mes inválido
@@ -612,7 +627,9 @@ async function cargarTarea () {
         let fechaCreacionConFormato = new Date();
         let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
         let id = '';
-        
+        let fechaDeLicencia = `${numeroDeMesSeleccionado}/${dia}/2024`;
+
+
 
         if(selectorActividadFormularioElegido === "HorasDeuda") {
             let contadorHoras = document.getElementById("horas-contador");
@@ -635,11 +652,11 @@ async function cargarTarea () {
         let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
   
 
-        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, id);
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id);
 
         arrayLicencias.push(nuevaLicencia);
 
-        await cargarTareaFirestore (licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id);
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id);
 
         sweetAlertOK("Licencia cargada!", "success")
         cerrarModalDeTareas();
@@ -789,8 +806,9 @@ function ponerMesEnBordeDeNotas (mes){
 async function traerNotasExistentesDeFirestore (mes) {
   try {
     let notasExistentes = await mostrarNotasDeFirestore(mes);
-  
+
     spanParaNotas.textContent = notasExistentes;
+
 
   } catch (error) {
     sweetAlertOK("Error, actualizar página por favor", "error");
@@ -910,9 +928,8 @@ function agregarGuardarNotas () {
     mostrarCarga();
 
 
-
-    console.log(spanParaNotas.textContent)
     let notaNueva = spanParaNotas.textContent;
+
     actualizarNotasMeses(selectorDeMes.value, notaNueva);
 
 
@@ -948,6 +965,11 @@ function agregarGuardarNotas () {
    ocultarCarga();
     
 }
+
+
+
+
+
 
 
 
@@ -1093,11 +1115,11 @@ async function desplegarResumen () {
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaAngie.extra} </p>
-            <button data-id="Angie" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas adeudadas: ${licenciaAngie.deuda} </p>
-            <button data-id="Angie" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
+            <button data-id="Angie" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
@@ -1111,7 +1133,7 @@ async function desplegarResumen () {
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaCami.estudio}/10 </p>
-            <button data-id="Cami" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
+            <button data-id="Cami" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Horas extra: ${licenciaCami.extra} </p>
@@ -1172,9 +1194,114 @@ async function desplegarResumen () {
   `
   contenedorResumen.appendChild(cardsResumen)
 
+  let btnEnResumen = document.querySelectorAll(".button-en-resumen");
+  btnEnResumen.forEach(element => {
+    element.addEventListener("click", modificarResumen);
+  });
+
 }
 
 
 
 
 
+
+
+
+
+
+
+
+async function modificarResumen(event) {
+    mostrarCarga();
+    let recepcionistaDataId = event.target.getAttribute("data-id");
+    let licenciaDataId = event.target.getAttribute("data-id2");
+    let contenedorParaDetalles = document.getElementById("contenedor-detalles-resumen");
+    let detallesAInsertar = document.createElement("div");
+    detallesAInsertar.classList.add("div-detalles-licencias");
+    detallesAInsertar.innerHTML += `
+    <button class="btn-close-detalles"> X </button>
+    <h1> ${licenciaDataId} de ${recepcionistaDataId} </h1>
+    `;
+    try {
+        // Obtener todas las tareas desde Firestore
+        const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+        let tarjetasOrdenadas = [];
+
+        // Iterar sobre las tareas y agregarlas al array
+        querySnapshot.forEach((doc) => {
+            const tarjetaFirestore = doc.data();
+
+            if (tarjetaFirestore.licencia === licenciaDataId && tarjetaFirestore.recepcionista === recepcionistaDataId) {
+                tarjetasOrdenadas.push(tarjetaFirestore);
+            }
+        });
+
+        // Ordenar las tarjetas según la fecha de licencia
+        tarjetasOrdenadas.sort((a, b) => {
+            // Convertir las fechas de licencia a objetos Date
+            let fechaA = new Date(a.fechaDeLicencia);
+            let fechaB = new Date(b.fechaDeLicencia);
+            // Comparar las fechas
+            return fechaA - fechaB;
+        });
+
+        // Renderizar las tarjetas ordenadas en el contenedor
+        tarjetasOrdenadas.forEach((tarjeta) => {
+            detallesAInsertar.innerHTML += `
+            <p class="p-detalle-resumen">${tarjeta.dia} de ${tarjeta.mes}</p>
+            `;
+        });
+
+        contenedorParaDetalles.appendChild(detallesAInsertar);
+        ocultarCarga();
+    } catch (error) {
+        console.error("Error al obtener documentos: ", error);
+        ocultarCarga();
+    }
+}
+
+
+
+
+
+// async function modificarResumen(event) {
+//     mostrarCarga();
+//     let recepcionistaDataId = event.target.getAttribute("data-id");
+//     let licenciaDataId = event.target.getAttribute("data-id2");
+//     let contenedorParaDetalles = document.getElementById("contenedor-detalles-resumen");
+//     let detallesAInsertar = document.createElement("div");
+//     detallesAInsertar.classList.add("div-detalles-licencias");
+
+  
+    
+//     try {
+//       // Obtener todas las tareas desde Firestore
+//       const querySnapshot = await getDocs(collection(db, "licenciasCalendario"));
+    
+//       // Iterar sobre las tareas y agregarlas al array y al contenedor
+//       querySnapshot.forEach((doc) => {
+//         const tarjetaFirestore = doc.data();
+
+//           if (tarjetaFirestore.licencia === licenciaDataId) {
+
+//             if(tarjetaFirestore.recepcionista === recepcionistaDataId){
+
+//             console.log(`${tarjetaFirestore.dia} de ${tarjetaFirestore.mes}`)
+//             detallesAInsertar.innerHTML += `
+//                 <p> ${tarjetaFirestore.dia} de ${tarjetaFirestore.mes}
+//             `
+
+//             }
+
+//           }
+//           contenedorParaDetalles.appendChild(detallesAInsertar);
+//       });
+  
+//       ocultarCarga();
+//     } catch (error) {
+//       console.error("Error al obtener documentos: ", error);
+//       ocultarCarga();
+//     }
+//     ocultarCarga();
+//   }

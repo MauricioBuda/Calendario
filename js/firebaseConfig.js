@@ -44,7 +44,7 @@ async function traerLicenciasRestantes() {
 
 
 // Cargar tarea en Firestore
-async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, id){
+async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id){
 
   try {
         let docRef = await addDoc(collection(db, "licenciasCalendario"), {
@@ -56,6 +56,7 @@ async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExt
         horasDeuda: nuevaLicencia.horasDeuda,
         fechaCreacionConFormato: nuevaLicencia.fechaCreacionConFormato,
         fechaCreacionSinFormato: nuevaLicencia.fechaCreacionSinFormato,
+        fechaDeLicencia: nuevaLicencia.fechaDeLicencia,
         id: nuevaLicencia.id
         });
     } catch (error) {
@@ -102,30 +103,31 @@ async function actualizarNotasMeses(mes, notaNueva) {
 async function mostrarNotasDeFirestore(mes) {
   let notaExistente
   try {
-    // Obtén la referencia del documento
+    // Obténgo la referencia del documento
     let docRef = doc(db, "notas", "vXxa4CEfZT1HKnhNOyre");
 
-    // Obtén el documento
+    // Obténgo el documento
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
 
       // Imprime los campos del documento
-      let data = docSnap.data();
-      for (let campo in data) {
+        let data = docSnap.data();
+        for (let campo in data) {
         if (campo.toUpperCase() === mes) {
         notaExistente = data[campo];
         }
       }
     } else {
-      console.log("El documento no existe.");
+        console.log("El documento no existe.");
+        sweetAlertOK("Ocurrió un error, actualice página", "error");
     }
 
-    return notaExistente; // No se necesita devolver nada en este caso
+    return notaExistente; 
   } catch (error) {
     sweetAlertOK("Ocurrió un error, actualice página", "error");
     console.error('Error obteniendo documentos: ', error);
-    throw error; // Lanza el error para que sea manejado por la llamada de la función
+    throw error; 
   }
 }
   
