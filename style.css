@@ -980,7 +980,7 @@ min-width: 25vw;
     width: max-content;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center; */
     height: 45vh;
     align-items: center;
   }
