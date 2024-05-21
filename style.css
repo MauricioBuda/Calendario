@@ -583,7 +583,12 @@ min-width: 25vw;
 /* MEDIA QUERYS */
 @media screen and (max-width: 524px) {
   .cards-resumen{
-    margin-top: 3vh;
+    margin-top: 6vh;
+  }
+
+  .card-resumen{
+    height: 35vh;
+    margin: 1vh 1vw;
   }
   
   .btn-close-resumen{
