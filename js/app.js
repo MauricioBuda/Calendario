@@ -1228,9 +1228,6 @@ async function desplegarDetalles(event) {
     let divConCadaDetalle = document.createElement("div");
     let variableParaRenderizarLicencia
 
-    let btnCloseResumen = document.getElementById("btn-close-resumen");
-    let cardsDelResumen = document.querySelectorAll(".card-resumen");
-
     borrosoTogleCuandoAbroDetalle();
 
     divConCadaDetalle.classList.add("div-con-detalles");

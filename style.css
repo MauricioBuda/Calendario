@@ -893,6 +893,7 @@ min-width: 25vw;
 
 /* INICIO DETALLES LICENCIAS ↓ */
 .div-contenedor-detalles-licencias{
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
