@@ -249,7 +249,7 @@ function elegirMes() {
             break;
         case "Abril":
             diasEnMes = 30;
-            primerDia.classList.add("empiezaMiercoles");
+            primerDia.classList.add("empiezaLunes");
             numeroDeMesSeleccionado = 4;
             break;
         case "Mayo":
