@@ -710,7 +710,7 @@ min-width: 25vw;
     font-size: 2vw;
     width: 10vw;
     padding: 0 0 0 8px;
-    margin:  0 0 0 0;
+    margin:  0 0 2px 0;
   }
 }
 /* FIN TAREA RENDERIZADA CALENDARIO↑ */
@@ -887,11 +887,15 @@ min-width: 25vw;
 
 
 
+
+
+
+
 /* INICIO DETALLES LICENCIAS ↓ */
-.div-detalles-licencias{
+.div-contenedor-detalles-licencias{
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   position: absolute;
   align-items: center;
   top: 50%;
@@ -900,7 +904,8 @@ min-width: 25vw;
   border: none;
   border-radius: 15px;
   background-image: linear-gradient(45deg, rgba(43,33,93, 0.83),rgb(81, 240, 237));
-  padding: 20vh 8vw;
+  min-width: 40vw;
+  min-height: 60vh;
 }
 
 .btn-close-detalles{
@@ -913,16 +918,69 @@ min-width: 25vw;
 }
 
 .h1-detalle-resumen{
+  margin-top: 5vh;
   display: flex;
   text-align: center;
 }
 
+.div-con-detalles{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 45vh;
+  align-items: center;
+  margin-top: 3vh;
+}
+
 .p-detalle-resumen{
+  height: max-content;
   display: flex;
   width: 20vw;
   justify-content: center;
   border: none;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.608);
+}
+
+.filtro-borroso-para-detalle{
+  filter: blur(5px);
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 524px) {
+  .div-contenedor-detalles-licencias{
+    min-width: 80vw;
+    min-height: 90vh;
+    justify-content: space-around;
+  }
+  
+  .btn-close-detalles{
+    background-color: rgba(255, 0, 0, 0.63);
+  }
+
+  .h1-detalle-resumen{
+    margin-top: 0vh;
+  }
+  
+  .div-con-detalles{
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 45vh;
+    align-items: center;
+    margin-top: -5vh;
+  }
+  
+  .p-detalle-resumen{
+    width: 55vw;
+  }
 }
 /* FIN DETALLES LICENCIAS  ↑*/

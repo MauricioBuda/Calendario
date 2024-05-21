@@ -57,6 +57,8 @@ let btnResumen = document.getElementById("resumen");
 btnResumen.addEventListener("click", desplegarResumen);
 let contenedorResumen = document.getElementById("section-contenedor-resumen");
 
+// Detalles
+let divContenedorDetalles = document.getElementById("div-para-detalles");
 
 // Asigno evento a los selectores para que vayan filtrando
 selectores.forEach(selector => {
@@ -180,7 +182,7 @@ function asignarEventosSegunDondeHagaClick() {
           clickEnCasilla(id);
         } 
 
-        else if (event.target.classList.contains("h1-detalle-resumen")) {
+        else if (event.target.classList.contains("btn-close-detalles")) {
             cerrarModalDetalles();
           } 
     })
@@ -884,7 +886,7 @@ function renderizarTareasEnCalendario (tarea){
     }
 
     tareaAInsertar.innerHTML = `
-        <p id="${tarea.id}" data-id="${tarea.dia}" class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra:tarea.licencia} </span></p>
+        <p id="${tarea.id}" data-id="${tarea.dia}" class="tarea-renderizada ${claseSegunLicencia}"> ${tarea.recepcionista}  <span class="span-licencia-calendario">  |  ${tarea.horasDeuda!=0?tarea.horasDeuda + "HS":tarea.horasExtra!=0?tarea.horasExtra + "HS":tarea.licencia} </span></p>
     `
 
     casilla.appendChild(tareaAInsertar);
@@ -1223,15 +1225,48 @@ async function desplegarDetalles(event) {
 
     let recepcionistaDataId = event.target.getAttribute("data-id");
     let licenciaDataId = event.target.getAttribute("data-id2");
-    let contenedorParaDetalles = document.getElementById("contenedor-detalles-resumen");
-    let detallesAInsertar = document.createElement("div");
+    let divConCadaDetalle = document.createElement("div");
+    let variableParaRenderizarLicencia
 
-    detallesAInsertar.classList.add("div-detalles-licencias");
+    let btnCloseResumen = document.getElementById("btn-close-resumen");
+    let cardsDelResumen = document.querySelectorAll(".card-resumen");
 
-    detallesAInsertar.innerHTML += `
+    borrosoTogleCuandoAbroDetalle();
+
+    divConCadaDetalle.classList.add("div-con-detalles");
+    divContenedorDetalles.classList.remove("aplicar-display-none");
+    divContenedorDetalles.classList.add("div-contenedor-detalles-licencias");
+    divContenedorDetalles.innerHTML = '';
+
+
+
+
+    switch (licenciaDataId) {
+            case "Estudio":
+                variableParaRenderizarLicencia = "Día de estudio ";
+            break;
+
+            case "Vacaciones":
+                variableParaRenderizarLicencia = "Vacaciones ";
+            break;
+
+            case "HorasExtra":
+                variableParaRenderizarLicencia = "Horas extra ";
+            break;
+
+            case "HorasDeuda":
+                variableParaRenderizarLicencia = "Horas adeudadas ";
+            break;
+    
+        default:
+            break;
+    }
+
+    divContenedorDetalles.innerHTML += `
     <button class="btn-close-detalles"> X </button>
-    <h1 class="h1-detalle-resumen"> ${licenciaDataId} de ${recepcionistaDataId} </h1>
+    <h1 class="h1-detalle-resumen"> ${variableParaRenderizarLicencia}  ${recepcionistaDataId} </h1>
     `;
+
 
     try {
         // Obtener todas las tareas desde Firestore
@@ -1257,13 +1292,23 @@ async function desplegarDetalles(event) {
         });
 
         // Renderizar las tarjetas ordenadas en el contenedor
+        
         tarjetasOrdenadas.forEach((tarjeta) => {
-            detallesAInsertar.innerHTML += `
+            divConCadaDetalle.innerHTML += `
             <p class="p-detalle-resumen">${tarjeta.dia} de ${tarjeta.mes}</p>
             `;
         });
 
-        contenedorParaDetalles.appendChild(detallesAInsertar);
+        if (tarjetasOrdenadas.length === 0) {
+            divConCadaDetalle.innerHTML += `
+            <p class="p-detalle-resumen">Todavía no hay ninguna cargada</p>
+            `;
+        }
+
+
+        divContenedorDetalles.appendChild(divConCadaDetalle)
+        // divContenedorDetalles.appendChild(divConDetalles)
+        
         ocultarCarga();
     } catch (error) {
         console.error("Error al obtener documentos: ", error);
@@ -1282,6 +1327,32 @@ async function desplegarDetalles(event) {
 
 
 function cerrarModalDetalles () {
-    let contenedorDetalles = document.querySelector(".div-detalles-licencias");
-    contenedorDetalles.classList.add("aplicar-display-none");
+    
+    divContenedorDetalles.classList.add("aplicar-display-none");
+
+    borrosoTogleCuandoAbroDetalle();
+}
+
+
+
+
+
+
+
+
+function  borrosoTogleCuandoAbroDetalle() {
+    let btnCloseResumen = document.getElementById("btn-close-resumen");
+    let cardsDelResumen = document.querySelectorAll(".card-resumen");
+    let btnDetalle = document.querySelectorAll(".button-en-resumen");
+
+    btnCloseResumen.disabled = !btnCloseResumen.disabled;
+
+    btnCloseResumen.classList.toggle("filtro-borroso-para-detalle");
+    cardsDelResumen.forEach(element => {
+    element.classList.toggle("filtro-borroso-para-detalle");
+    });
+
+    btnDetalle.forEach(element => {
+        element.disabled = !element.disabled;
+    })
 }
