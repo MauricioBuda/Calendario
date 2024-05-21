@@ -556,7 +556,7 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 }
 
 .span-dentro-resumen{
-  margin: 1vh 0 0 0;
+  margin: 5vh 0 0 0;
   display: flex;
   flex-direction: row;
 }
@@ -603,7 +603,7 @@ min-width: 25vw;
   }
 
   .span-dentro-resumen{
-    margin: 0 0 1.5vh 0;
+    margin: 2vh 0;
   }
   
   .p-resumen{

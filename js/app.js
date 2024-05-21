@@ -950,12 +950,6 @@ function agregarGuardarNotas () {
     
    } else {
 
-    // spanParaNotas.addEventListener('keydown', function(event) {
-    //   if (event.key === 'Enter') {
-    //     event.preventDefault();
-    //   }
-    // });
-
     ponerSacarBorrosoCuandoAgregoNota();
     btnAgregarGuardarNotas.classList.add("boton-guardar-notas");
     btnAgregarGuardarNotas.classList.remove("boton-agregar-notas");
@@ -1109,7 +1103,7 @@ async function desplegarResumen () {
   <div class="cards-resumen">
 
       <div class="card-resumen card-angie">
-        <h1 class="h1-cards">Resumen licencias Angie</h1>
+        <h1 class="h1-cards">Resumen Angie</h1>
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaAngie.vacaciones} </p>
@@ -1119,19 +1113,11 @@ async function desplegarResumen () {
             <p class="p-resumen"> Días estudio: ${licenciaAngie.estudio}/10 </p>
             <button data-id="Angie" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas extra: ${licenciaAngie.extra} </p>
-            <button data-id="Angie" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
-          </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas adeudadas: ${licenciaAngie.deuda} </p>
-            <button data-id="Angie" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
-          </span>
         </div>
       </div>
 
       <div class="card-resumen card-cami">
-        <h1 class="h1-cards">Resumen licencias Cami</h1>
+        <h1 class="h1-cards">Resumen Cami</h1>
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaCami.vacaciones} </p>
@@ -1141,19 +1127,11 @@ async function desplegarResumen () {
             <p class="p-resumen"> Días estudio: ${licenciaCami.estudio}/10 </p>
             <button data-id="Cami" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas extra: ${licenciaCami.extra} </p>
-            <button data-id="Cami" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
-          </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas adeudadas: ${licenciaCami.deuda} </p>
-            <button data-id="Cami" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
-          </span>
         </div>
       </div>
 
       <div class="card-resumen card-ro">
-        <h1 class="h1-cards">Resumen licencias Ro</h1>
+        <h1 class="h1-cards">Resumen Ro</h1>
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaRo.vacaciones} </p>
@@ -1163,19 +1141,11 @@ async function desplegarResumen () {
             <p class="p-resumen"> Días estudio: ${licenciaRo.estudio}/10 </p>
             <button data-id="Ro" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas extra: ${licenciaRo.extra} </p>
-            <button data-id="Ro" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
-          </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas adeudadas: ${licenciaRo.deuda} </p>
-            <button data-id="Ro" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
-          </span>
         </div>
       </div>
 
       <div class="card-resumen card-quimey">
-        <h1 class="h1-cards">Resumen licencias Quimi</h1>
+        <h1 class="h1-cards">Resumen Quimi</h1>
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Vacaciones tomadas: ${licenciaQuimey.vacaciones} </p>
@@ -1184,14 +1154,6 @@ async function desplegarResumen () {
           <span class="span-dentro-resumen">
             <p class="p-resumen"> Días estudio: ${licenciaQuimey.estudio}/10 </p>
             <button data-id="Quimi" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
-          </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas extra: ${licenciaQuimey.extra} </p>
-            <button data-id="Quimi" data-id2="HorasExtra" class="button-en-resumen"> Detalle </button>
-          </span>
-          <span class="span-dentro-resumen">
-            <p class="p-resumen"> Horas adeudadas: ${licenciaQuimey.deuda} </p>
-            <button data-id="Quimi" data-id2="HorasDeuda" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
