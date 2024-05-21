@@ -975,7 +975,8 @@ min-width: 25vw;
   }
   
   .p-detalle-resumen{
-    min-width: 55vw;
+    padding: 0 4px;
+    width: max-content;
   }
 }
 /* FIN DETALLES LICENCIAS  ↑*/
