@@ -909,12 +909,20 @@ min-width: 25vw;
 }
 
 .btn-close-detalles{
+  font-size: 2vw;
   border: none;
   border-radius: 50%;
-  background-color: rgba(255, 0, 0, 0.783);
+  background-color: rgba(255, 0, 0, 0);
+  color: rgba(255, 0, 0, 0.624);
+  font-weight: bold;
   position: absolute;
   top: 2%;
   right: 2%;
+}
+
+.btn-close-detalles:hover{
+  color: rgb(255, 0, 0);
+  text-shadow: 1px 1px 2px black;
 }
 
 .h1-detalle-resumen{
@@ -962,7 +970,9 @@ min-width: 25vw;
   }
   
   .btn-close-detalles{
-    background-color: rgba(255, 0, 0, 0.63);
+    font-size: 7vw;
+    text-shadow: 1px 1px 1px black;
+    background-color: rgba(255, 255, 255, 0.13);
   }
   
   .div-con-detalles{
