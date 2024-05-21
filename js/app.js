@@ -950,11 +950,11 @@ function agregarGuardarNotas () {
     
    } else {
 
-    spanParaNotas.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-      }
-    });
+    // spanParaNotas.addEventListener('keydown', function(event) {
+    //   if (event.key === 'Enter') {
+    //     event.preventDefault();
+    //   }
+    // });
 
     ponerSacarBorrosoCuandoAgregoNota();
     btnAgregarGuardarNotas.classList.add("boton-guardar-notas");
