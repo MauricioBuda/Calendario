@@ -530,6 +530,7 @@ background-image: linear-gradient(305deg, hsl(151,59%,76%),hsl(202.429,59%,76%),
 .h1-cards{
   color: black;
   margin-top: 3vh;
+  font-weight: bold;
 }
 
 .card-resumen{
