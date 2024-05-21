@@ -956,27 +956,22 @@ min-width: 25vw;
 
 @media screen and (max-width: 524px) {
   .div-contenedor-detalles-licencias{
-    min-width: 80vw;
-    min-height: 90vh;
+    min-width: 90vw;
+    min-height: 40vh;
     justify-content: space-around;
   }
   
   .btn-close-detalles{
     background-color: rgba(255, 0, 0, 0.63);
   }
-
-  .h1-detalle-resumen{
-    margin-top: 0vh;
-  }
   
   .div-con-detalles{
     width: max-content;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     height: 45vh;
     align-items: center;
-    margin-top: -5vh;
   }
   
   .p-detalle-resumen{
