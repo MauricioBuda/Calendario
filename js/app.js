@@ -413,7 +413,7 @@ async function clickEnCasilla(dia){
 
         tareaAInsertarCard.innerHTML = `
             <span> ${element.recepcionista}</span>
-            <span> ${element.horasDeuda!=0?element.horasDeuda + "HS":element.horasExtra!=0?element.horasExtra:element.licencia}</span>
+            <span> ${element.horasDeuda!=0?element.horasDeuda + "HS":element.horasExtra!=0?element.horasExtra + "HS":element.licencia}</span>
             <span>
                   <button id="eliminarTarea-${element.id}" class="btn-trash-card">
                         <svg xmlns="http://www.w3.org/2000/svg" id="btnTrash-${element.id}" class="trash-card" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
