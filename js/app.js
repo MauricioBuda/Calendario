@@ -47,7 +47,7 @@ let nuevaLicencia
 
 // Declaro contadores de licencias
 let licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
-let licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+let licenciaNoelia = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 let licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 let licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
@@ -447,7 +447,7 @@ async function formularioNuevaTarea(dia){
         <select class="selectores-formulario" id="recepcionistaFormulario" name="selectorRecepcionistaFormulario" >
           <option disabled selected> RECEPCIONISTA </option>
           <option value="Angie"> ANGIE </option>
-          <option value="Cami"> CAMI </option>
+          <option value="Noelia"> NOELIA </option>
           <option value="Ro"> RO </option>
           <option value="Quimi"> QUIMI </option>
         </select>
@@ -983,7 +983,7 @@ async function actualizarLicenciasRestantes () {
 
   // Declaro contadores de licencias
 licenciaAngie = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
-licenciaCami = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
+licenciaNoelia = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 licenciaRo = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
 
@@ -1014,20 +1014,20 @@ licenciaQuimey = {deuda: 0, estudio: 0 , extra: 0, vacaciones: 0};
       default:
         break;
       }
-    } else if (tarjetaFirestore.recepcionista === "Cami") {
+    } else if (tarjetaFirestore.recepcionista === "Noelia") {
         
       switch (tarjetaFirestore.licencia) {
         case "Vacaciones":
-          licenciaCami.vacaciones += 1;
+          licenciaNoelia.vacaciones += 1;
         break;
         case "Estudio":
-          licenciaCami.estudio += 1;
+          licenciaNoelia.estudio += 1;
         break;
         case "HorasExtra":
-          licenciaCami.extra += tarjetaFirestore.horasExtra;
+          licenciaNoelia.extra += tarjetaFirestore.horasExtra;
         break;
         case "HorasDeuda":
-          licenciaCami.deuda += tarjetaFirestore.horasDeuda;
+          licenciaNoelia.deuda += tarjetaFirestore.horasDeuda;
         break;
       default:
         break;
@@ -1117,15 +1117,15 @@ async function desplegarResumen () {
       </div>
 
       <div class="card-resumen card-cami">
-        <h1 class="h1-cards">Resumen Cami</h1>
+        <h1 class="h1-cards">Resumen Noelia</h1>
         <div class="div-p-cards">
           <span class="span-dentro-resumen">
-            <p class="p-resumen"> Vacaciones tomadas: ${licenciaCami.vacaciones} </p>
-            <button data-id="Cami" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
+            <p class="p-resumen"> Vacaciones tomadas: ${licenciaNoelia.vacaciones} </p>
+            <button data-id="Noelia" data-id2="Vacaciones" class="button-en-resumen"> Detalle </button>
           </span>
           <span class="span-dentro-resumen">
-            <p class="p-resumen"> Días estudio: ${licenciaCami.estudio}/10 </p>
-            <button data-id="Cami" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
+            <p class="p-resumen"> Días estudio: ${licenciaNoelia.estudio}/10 </p>
+            <button data-id="Noelia" data-id2="Estudio" class="button-en-resumen"> Detalle </button>
           </span>
         </div>
       </div>
