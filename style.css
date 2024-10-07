@@ -161,6 +161,8 @@ ol{
 
 
 
+
+
 /* MEDIA QUERYS */
 @media screen and (max-width: 524px) {
   
@@ -194,7 +196,13 @@ ol{
     border-radius: 8px;
     margin: 1px;
   }
+  
+  .option-disabled{
+    display: none;
+  }
 }
+
+
 /* FIN PANTALLA PPAL↑ */
 
 
