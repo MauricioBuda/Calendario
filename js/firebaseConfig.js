@@ -44,14 +44,15 @@ async function traerLicenciasRestantes() {
 
 
 // Cargar tarea en Firestore
-async function cargarTareaFirestore (licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id){
-
+async function cargarTareaFirestore (licencia, recepcionista, dia, mes, año, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id){
+console.log(nuevaLicencia.mes)
   try {
         let docRef = await addDoc(collection(db, "licenciasCalendario"), {
         licencia: nuevaLicencia.licencia,
         recepcionista: nuevaLicencia.recepcionista,
         dia: nuevaLicencia.dia,
         mes: nuevaLicencia.mes,
+        año: nuevaLicencia.año,
         horasExtra: nuevaLicencia.horasExtra,
         horasDeuda: nuevaLicencia.horasDeuda,
         fechaCreacionConFormato: nuevaLicencia.fechaCreacionConFormato,

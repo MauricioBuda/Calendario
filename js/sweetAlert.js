@@ -13,7 +13,7 @@ function sweetAlertOK (title, successOrError){
 function sweetAlertConfirm () {
     return new Promise((resolve) => {
         Swal.fire({
-          title: "Eliminar licencia",
+          title: "¿Eliminar licencia?",
           text: "No se puede recuperar",
           icon: "warning",
           showCancelButton: true,

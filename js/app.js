@@ -18,6 +18,7 @@ let selectores = document.querySelectorAll('.selectores');
 let selectorDeMes = document.getElementById("selectorMes");
 selectorDeMes.addEventListener("change", elegirMes);
 let numeroDeMesSeleccionado
+let añoSeleccionado
 
 let olCalendario = document.getElementById("ol-calendario");
 let selectorRecepcionista = document.getElementById("selectorRecepcionista");
@@ -88,11 +89,12 @@ let btnAddSVG = `<svg xmlns="http://www.w3.org/2000/svg" class="add-formulario-s
 
 // Clase para ir cargando las licencias:
 class Licencia {
-    constructor( licencia, recepcionista, dia, mes, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id) {
+    constructor( licencia, recepcionista, dia, mes, año, horasExtra, horasDeuda, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id) {
       this.licencia = licencia;
       this.recepcionista = recepcionista;
       this.dia = dia;
       this.mes = mes;
+      this.año = año;
       this.horasExtra = horasExtra;
       this.horasDeuda = horasDeuda;
       this.fechaCreacionConFormato = fechaCreacionConFormato;
@@ -232,65 +234,149 @@ function elegirMes() {
     let diasEnMes = 0;
 
     switch (selectorDeMes.value) {
-        case "Enero":
+        case "Enero 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaLunes");
             numeroDeMesSeleccionado = 1;
+            añoSeleccionado = 2024;
             break;
-        case "Febrero":
+        case "Febrero 2024":
             diasEnMes = 29;
             primerDia.classList.add("empiezaJueves");
             numeroDeMesSeleccionado = 2;
+            añoSeleccionado = 2024;
             break;
-        case "Marzo":
+        case "Marzo 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaViernes");
             numeroDeMesSeleccionado = 3;
+            añoSeleccionado = 2024;
             break;
-        case "Abril":
+        case "Abril 2024":
             diasEnMes = 30;
             primerDia.classList.add("empiezaLunes");
             numeroDeMesSeleccionado = 4;
+            añoSeleccionado = 2024;
             break;
-        case "Mayo":
+        case "Mayo 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaMiercoles");
             numeroDeMesSeleccionado = 5;
+            añoSeleccionado = 2024;
             break;
-        case "Junio":
+        case "Junio 2024":
             diasEnMes = 30;
             primerDia.classList.add("empiezaSabado");
             numeroDeMesSeleccionado = 6;
+            añoSeleccionado = 2024;
             break;
-        case "Julio":
+        case "Julio 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaLunes");
             numeroDeMesSeleccionado = 7;
+            añoSeleccionado = 2024;
             break;
-        case "Agosto":
+        case "Agosto 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaJueves");
             numeroDeMesSeleccionado = 8;
+            añoSeleccionado = 2024;
             break;
-        case "Septiembre":
+        case "Septiembre 2024":
             diasEnMes = 30;
             primerDia.classList.add("empiezaDomingo");
             numeroDeMesSeleccionado = 9;
+            añoSeleccionado = 2024;
             break;
-        case "Octubre":
+        case "Octubre 2024":
             diasEnMes = 31;
-            primerDia.classList.add("empiezaMiercoles");
+            primerDia.classList.add("empiezaMartes");
             numeroDeMesSeleccionado = 10;
+            añoSeleccionado = 2024;
             break;
-        case "Noviembre":
+        case "Noviembre 2024":
             diasEnMes = 30;
             primerDia.classList.add("empiezaViernes");
             numeroDeMesSeleccionado = 11;
+            añoSeleccionado = 2024;
             break;
-        case "Diciembre":
+        case "Diciembre 2024":
             diasEnMes = 31;
             primerDia.classList.add("empiezaDomingo");
+            añoSeleccionado = 2024;
             numeroDeMesSeleccionado = 12;
+
+            case "Enero 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaMiercoles");
+              numeroDeMesSeleccionado = 1;
+              añoSeleccionado = 2025;
+            break;
+          case "Febrero 2025":
+              diasEnMes = 29;
+              primerDia.classList.add("empiezaSabado");
+              numeroDeMesSeleccionado = 2;
+              añoSeleccionado = 2025;
+            break;
+          case "Marzo 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaSabado");
+              numeroDeMesSeleccionado = 3;
+              añoSeleccionado = 2025;
+            break;
+          case "Abril 2025":
+              diasEnMes = 30;
+              primerDia.classList.add("empiezaMartes");
+              numeroDeMesSeleccionado = 4;
+            añoSeleccionado = 2025;
+            break;
+          case "Mayo 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaJueves");
+              numeroDeMesSeleccionado = 5;
+            añoSeleccionado = 2025;
+            break;
+          case "Junio 2025":
+              diasEnMes = 30;
+              primerDia.classList.add("empiezaDomingo");
+              numeroDeMesSeleccionado = 6;
+            añoSeleccionado = 2025;
+            break;
+          case "Julio 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaMartes");
+              numeroDeMesSeleccionado = 7;
+            añoSeleccionado = 2025;
+            break;
+          case "Agosto 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaViernes");
+              numeroDeMesSeleccionado = 8;
+            añoSeleccionado = 2025;
+            break;
+          case "Septiembre 2025":
+              diasEnMes = 30;
+              primerDia.classList.add("empiezaLunes");
+              numeroDeMesSeleccionado = 9;
+            añoSeleccionado = 2025;
+            break;
+          case "Octubre 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaMiercoles");
+              numeroDeMesSeleccionado = 10;
+            añoSeleccionado = 2025;
+            break;
+          case "Noviembre 2025":
+              diasEnMes = 30;
+              primerDia.classList.add("empiezaSabado");
+              numeroDeMesSeleccionado = 11;
+            añoSeleccionado = 2025;
+            break;
+          case "Diciembre 2025":
+              diasEnMes = 31;
+              primerDia.classList.add("empiezaLunes");
+              numeroDeMesSeleccionado = 12;
+            añoSeleccionado = 2025;
 
             break;
         default:
@@ -387,6 +473,9 @@ async function clickEnCasilla(dia){
     // Elimino el display none que venía arrastrando
     modalTareas.classList.remove("aplicar-display-none");
     diaSeleccionado = dia;
+    let desglosarMes = selectorDeMes.value.split(" ")
+    añoSeleccionado = desglosarMes[1] === "2024"? "2024" : desglosarMes[1] === "2025"? "2025" : ""
+
 
     ponerSacarBorroso();
 
@@ -609,6 +698,7 @@ function closeResumen () {
 
 // Cargar tarea en db ↓
 async function cargarTarea () {
+  // console.log(añoSeleccionado)
   try {
 
     mostrarCarga();
@@ -627,13 +717,14 @@ async function cargarTarea () {
         let recepcionista = recepcionistaElegida;
         let dia = diaSeleccionado;
         let mes = selectorDeMes.value;
+        let año = añoSeleccionado;
         let horasExtra = 0;
         let horasDeuda = 0;
         let formatoFecha = { year: 'numeric', month: 'numeric', day: 'numeric', hour12: false };
         let fechaCreacionConFormato = new Date();
         let fechaCreacionSinFormato = new Date().toLocaleDateString('es-AR', formatoFecha);
         let id = '';
-        let fechaDeLicencia = `${numeroDeMesSeleccionado}/${dia}/2024`;
+        let fechaDeLicencia = `${numeroDeMesSeleccionado}/${dia}/${añoSeleccionado}`;
 
 
 
@@ -658,11 +749,11 @@ async function cargarTarea () {
         let horasDeudaEnNegativo = parseFloat(horasDeuda) * -1;
   
 
-        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id);
+        nuevaLicencia = new Licencia(licencia, recepcionista, dia, mes, año, parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, fechaDeLicencia, id);
 
         arrayLicencias.push(nuevaLicencia);
 
-        await cargarTareaFirestore (licencia, recepcionista, dia, mes,  parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id);
+        await cargarTareaFirestore (licencia, recepcionista, dia, mes, año, parseFloat(horasExtra), horasDeudaEnNegativo, fechaCreacionConFormato, fechaCreacionSinFormato, nuevaLicencia, fechaDeLicencia, id);
 
         sweetAlertOK("Licencia cargada!", "success")
         cerrarModalDeTareas();
@@ -915,7 +1006,7 @@ async function eliminarTareaDeFirestore (idEliminar) {
                 location.reload();;
             }, 800);
         } else {
-            sweetAlertOK("Ocurrió un error, actualizar página", "error");
+            // sweetAlertOK("Ocurrió un error, actualizar página", "error");
             ocultarCarga();
         }
     }
@@ -1253,8 +1344,9 @@ async function desplegarDetalles(event) {
         // Renderizar las tarjetas ordenadas en el contenedor
         
         tarjetasOrdenadas.forEach((tarjeta) => {
+            let elAño = tarjeta.año?"":"2024"
             divConCadaDetalle.innerHTML += `
-            <p class="p-detalle-resumen">${tarjeta.dia} de ${tarjeta.mes}</p>
+            <p class="p-detalle-resumen">${tarjeta.dia} de ${tarjeta.mes} ${elAño}</p>
             `;
         });
 
